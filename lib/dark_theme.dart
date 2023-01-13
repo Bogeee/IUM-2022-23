@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 const darkSecondaryColor = Color(0xFF2A2D3E);
 const darkBgColor = Color(0xFF212332);
+const darkSnackBarBgColor = Color(0xFF2E3144);
 TextTheme darkTextTheme = ThemeData.dark().textTheme;
 
 final darkTheme = ThemeData.dark().copyWith(
@@ -15,6 +16,12 @@ final darkTheme = ThemeData.dark().copyWith(
   scaffoldBackgroundColor: darkBgColor,
   textTheme: GoogleFonts.poppinsTextTheme(darkTextTheme)
                         .apply(bodyColor: Colors.white),
-  canvasColor: darkSecondaryColor
+  canvasColor: darkSecondaryColor,
+  snackBarTheme: const SnackBarThemeData(
+    backgroundColor: darkSnackBarBgColor,
+    contentTextStyle: TextStyle(
+      color: Colors.white
+    ),
+  )
 );
 

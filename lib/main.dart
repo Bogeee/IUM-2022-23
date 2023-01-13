@@ -1,16 +1,26 @@
+// dependencies
 import 'package:flutter/material.dart';
+
+// constants, themes and utilities
 import 'package:proj/light_theme.dart';
 import 'package:proj/dark_theme.dart';
 
-import 'package:proj/models/notifiers.dart';
-import 'package:proj/views/provider_test/prov_test.dart';
+// models
 import 'package:provider/provider.dart';
+import 'package:proj/models/notifiers.dart';
+import 'package:proj/models/build_db.dart';
 
-void main() {
+// views
+import 'package:proj/views/onboarding/onboarding.dart';
+import 'package:proj/views/login/login.dart';
+import 'package:proj/views/register/register.dart';
+
+void main() async 
+{
   // To access multiple providers we must nest them
   runApp(
     ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(true), 
+      create: (context) => ThemeNotifier(false), 
       child: ChangeNotifierProvider(
         create: (context) => LoggedInNotifier("saved_user"),
         // The ThemeNotifiers and LoggedInNotifier can be accessed
@@ -19,6 +29,9 @@ void main() {
       )
     )
   );
+
+  // Create the DB at startup
+  createDB();
 }
 
 class MyApp extends StatelessWidget {
@@ -29,15 +42,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
+    bool user_saved = Provider.of<LoggedInNotifier>(context).isSaved;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Ripetizioni',
       theme: isDark ? darkTheme : lightTheme,
-      home: const FirstView(),
-      initialRoute: '/first',
+      home: const OnboardingPage(),
+      initialRoute: user_saved 
+      //FIXME: fix the name of the initial route
+        ? '/login'         // if already logged in at app startup (/home here)
+        : '/onboarding',   // if not logged in at app startup (/onboarding here)
       routes: {
-        '/first': (context) => const FirstView(),
-        '/second': (context) => const SecondView()
+        '/onboarding': (context) => const OnboardingPage(),
+        '/login': (context) => const LoginView(),
+        '/register': (context) => const RegisterView(),
       },
     );
   }
