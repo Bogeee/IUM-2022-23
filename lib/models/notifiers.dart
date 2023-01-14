@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proj/models/login_info.dart';
 
 // models
 import 'package:proj/models/user.dart';
@@ -42,23 +43,24 @@ class ThemeNotifier with ChangeNotifier {
 }
 
 class LoggedInNotifier with ChangeNotifier {
-  String _file_name;
-  late User _user;
+  late User? _user;
   bool _isSaved = false;
 
-  LoggedInNotifier(this._file_name){
-    //TODO: implement the access to local storage to get saved user data
-    
+  LoggedInNotifier(){
+    _isSaved = false;
   }
 
-  int get userId => _user.id;
+  int get userId => _user!.id;
 
-  bool get isAdmin => _user.isAdmin;
+  bool get isAdmin => _user!.isAdmin;
 
-  set user(User loggedIn) {
+  set user(User? loggedIn) {
     _user = loggedIn;
-    notifyListeners();
   }
 
-  bool get isSaved => _isSaved; // returns false
+  bool get isSaved => _isSaved;
+
+  set saved(bool saved) {
+    _isSaved = saved;
+  }
 }

@@ -13,6 +13,7 @@ To check if you have the latest version of a Flutter package, visit `https://pub
 - [Sqflite](https://pub.dev/packages/sqflite), used to interact with a local SQLite Database.
 - [Bcrypt](https://pub.dev/packages/bcrypt), used to store hashed passwords in the database. We are using `bcrypt` with the **Cost Factor** to `10`.
 - [Flutter Webview](https://pub.dev/packages/webview_flutter), used to show the **Registration page** website in the app.
+- [Path Provider](https://pub.dev/packages/path_provider), used to access the most common directories of the local storage.
 
 ### Authors
 

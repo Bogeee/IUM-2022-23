@@ -55,8 +55,11 @@ dependencies:
   # The following adds the Bcrypt algorithm to crypt passwords for the DB
   bcrypt: ^1.1.3
 
+  # The following is an utility to get common platform paths
+  path_provider: ^2.0.11
+
   # The following adds WebViews to Flutter
-  webview_flutter: ^4.0.1
+  # webview_flutter: ^4.0.1
 
 dev_dependencies:
   flutter_test:

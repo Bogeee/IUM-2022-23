@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // constants
 import 'package:proj/constants.dart';
+import 'package:proj/models/user.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -111,6 +112,9 @@ class _LoginFormState extends State<LoginForm> {
                     // Login successful
                     Provider.of<LoggedInNotifier>(context, listen: false).user =
                         loggedIn.user;
+                    if(remindMeController.value != null && remindMeController.value == true){
+                      await User.writeUserToLocalStorage(loggedIn.user);
+                    }
                     // FIXME: set /home route
                     Navigator.pushReplacementNamed(context, '/onboarding');
                   } else {

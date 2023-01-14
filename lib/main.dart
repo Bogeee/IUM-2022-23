@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // constants, themes and utilities
 import 'package:proj/light_theme.dart';
 import 'package:proj/dark_theme.dart';
+import 'package:proj/views/init.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -22,10 +23,10 @@ void main() async
     ChangeNotifierProvider(
       create: (context) => ThemeNotifier(false), 
       child: ChangeNotifierProvider(
-        create: (context) => LoggedInNotifier("saved_user"),
+        create: (context) => LoggedInNotifier(),
         // The ThemeNotifiers and LoggedInNotifier can be accessed
         // by any Widget inside MyApp()
-        child: const MyApp(),
+        child: const MyApp()
       )
     )
   );
@@ -42,18 +43,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
-    bool user_saved = Provider.of<LoggedInNotifier>(context).isSaved;
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Ripetizioni',
       theme: isDark ? darkTheme : lightTheme,
       home: const OnboardingPage(),
-      initialRoute: user_saved 
-      //FIXME: fix the name of the initial route
-        ? '/login'         // if already logged in at app startup (/home here)
-        : '/onboarding',   // if not logged in at app startup (/onboarding here)
+      initialRoute: '/init',
       routes: {
+        '/init': (context) => const InitView(),
         '/onboarding': (context) => const OnboardingPage(),
         '/login': (context) => const LoginView(),
         '/register': (context) => const RegisterView(),

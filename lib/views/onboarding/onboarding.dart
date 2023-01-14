@@ -4,6 +4,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 // models
 import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
+import 'package:proj/models/user.dart';
 
 // styles
 import 'package:proj/views/onboarding/components/introduction_screen_styles.dart';
@@ -44,6 +45,9 @@ class OnboardingPage extends StatelessWidget {
         ],
         done: const Text('Inizia', style: TextStyle(fontWeight: FontWeight.bold)),
         onDone: () {
+          // After User.onboardingComplete(), we won't show again the onboarding
+          // page to the user, unless he deletes the app and reinstalls it.
+          User.onboardingComplete();
           Navigator.pushReplacementNamed(context, '/login');
         },
         next: const Text('Avanti', style: TextStyle(fontWeight: FontWeight.bold)),
