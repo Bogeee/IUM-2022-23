@@ -240,5 +240,5 @@ It returns an array of tuples in the format `(adjacent_word, cost_of_operation, 
 
 ## License
 
-See [LICENSE](../LICENSE).
+See [LICENSE](../LICENSE.md).
 
