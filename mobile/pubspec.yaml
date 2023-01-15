@@ -59,7 +59,7 @@ dependencies:
   path_provider: ^2.0.11
 
   # The following adds WebViews to Flutter
-  # webview_flutter: ^4.0.1
+  webview_flutter: ^4.0.1
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +92,9 @@ flutter:
     - assets/icons/eye-regular.svg
     - assets/icons/eye-slash-regular.svg
     - assets/icons/lock-tick.svg
+    - assets/register/register.css
+    - assets/register/register.html
+    - assets/register/register.js
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
