@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="register.css">
+    <script src="register.js"></script>
+</head>
+<body>
+    <div id="container">
+        <h1>Ripetizioni</h1>
+        <h2>Registrati</h2>
+        <!-- <form id="register-form" onsubmit="formDataChannel.postMessage(getFormData()); return false;"> -->
+        <!-- <form id="register-form" onsubmit="event.preventDefault(); getFormData();"> -->
+        <form id="register-form" novalidate>
+            <input type="text" name="first-name" placeholder="Nome" required>
+            <input type="text" name="last-name" placeholder="Cognome" required>
+            <input type="number" name="age" placeholder="Et&agrave;" required>
+            <div id="radio-container">
+                <input type="radio" id="male" name="gender" value="M" required>
+                <label for="male">Maschio</label>
+                <input type="radio" id="female" name="gender" value="F" required>
+                <label for="female">Femmina</label>
+                <input type="radio" id="other" name="gender" value="O" required>
+                <label for="other">Other</label>
+            </div>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="email" name="rpt-email" placeholder="Conferma email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="rpt-password" placeholder="Conferma password" required>
+            <div id="errMsg"></div>
+            <input type="submit" value="Registrati">
+        </form>
+    </div>
+</body>
+</html>
