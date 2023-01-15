@@ -1,6 +1,6 @@
 # Flutter Project
 
-IUM Project 2022/23 &copy; Filippo Bogetti & Stefano Fontana
+Flutter part of the project.
 
 ## Dependencies
 
