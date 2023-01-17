@@ -6,15 +6,40 @@ body {
 
 #container {
     margin: 0 auto;
-    width: 50%;
+    width: 80%;
     height: 100%;
-    /* background-color: #f8f8e0; */
     border-radius: 10px;
     padding: 1.5em;
 }
 
 #container h2 {
     margin-top: 1.5em;
+}
+
+.bg_shade {
+    background-color: #fe716324;
+    border-radius: 50px;
+    position: absolute;
+    z-index:-1;
+}
+
+#circle_1 {
+    top: 40px;
+    right: 27px;
+    width: 100px;
+    height: 100px;
+}
+#circle_2 {
+    top: 159px;
+    left: 48px;
+    width: 36px;
+    height: 36px;
+}
+#circle_3 {
+    top: 30px;
+    left: 75px;
+    width: 55px;
+    height: 55px;
 }
 
 #register-form input[type=text],
@@ -38,7 +63,7 @@ body {
 }
 
 #register-form input[type=submit] {
-    background-color: red;
+    background-color: #ad1052ff;
     color: #ffffff;
     font-family: 'Poppins', serif;
     font-weight: bold;
@@ -51,71 +76,29 @@ body {
 
 #radio-container {
     width: 60%;
+    height: 100%;
     padding: 1em;
     margin: 0 auto;
+}
+
+.radio-group {
+    text-align: left;
 }
 
 #errMsg {
     margin: 5px auto 22px auto;
-    width: 60%;
-    color:#f00;
+    width: 80%;
+    font-size: 13px;
     background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+.error-message {
+    color: #f00;
     border: 2px solid red;
-    border-radius: 5px;
 }
 
-/* body {
-    text-align: center;
-    font-family: 'Poppins', serif;
-    font-size: 16px;
+.success-message {
+    color: #0f0;
+    border: 2px solid #0f0;
 }
-
-#container {
-    margin: 0 auto;
-    width: 50%;
-    height: 100%;
-    background-color: #f8f8e0;
-    border-radius: 10px;
-    padding: 1.5em;
-}
-
-#container h2 {
-    margin-top: 1.5em;
-}
-
-#register-form input[type=text],
-#register-form input[type=email],
-#register-form input[type=number],
-#register-form input[type=password],
-#register-form input[type=submit] {
-    padding: 0.5em 5em;
-    margin: 5px 0 22px 0;
-    border-radius: 5px;
-    display: inline-block;
-    border: none;
-    font-family: 'Poppins', serif;
-}
-
-#register-form input[type=text],
-#register-form input[type=email],
-#register-form input[type=number],
-#register-form input[type=password] {
-    background: #f1f1f1;
-    width: 65%;
-}
-
-#register-form input[type=submit] {
-    background-color: red;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-#register-form input::placeholder {
-    font-family: 'Poppins', serif;
-}
-
-#radio-container {
-    width: 60%;
-    padding: 1em;
-    margin: 0 auto;
-} */

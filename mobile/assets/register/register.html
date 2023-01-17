@@ -13,25 +13,32 @@
     <div id="container">
         <h1>Ripetizioni</h1>
         <h2>Registrati</h2>
-        <!-- <form id="register-form" onsubmit="formDataChannel.postMessage(getFormData()); return false;"> -->
-        <!-- <form id="register-form" onsubmit="event.preventDefault(); getFormData();"> -->
+        <div class="bg_shade" id="circle_1"></div>
+        <div class="bg_shade" id="circle_2"></div>
+        <div class="bg_shade" id="circle_3"></div>
         <form id="register-form" novalidate>
             <input type="text" name="first-name" placeholder="Nome" required>
             <input type="text" name="last-name" placeholder="Cognome" required>
             <input type="number" name="age" placeholder="Et&agrave;" required>
             <div id="radio-container">
-                <input type="radio" id="male" name="gender" value="M" required>
-                <label for="male">Maschio</label>
-                <input type="radio" id="female" name="gender" value="F" required>
-                <label for="female">Femmina</label>
-                <input type="radio" id="other" name="gender" value="O" required>
-                <label for="other">Other</label>
+                <div class="radio-group">
+                    <input type="radio" id="male" name="gender" value="M" required>
+                    <label for="male">Maschio</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="female" name="gender" value="F" required>
+                    <label for="female">Femmina</label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" id="other" name="gender" value="O" required>
+                    <label for="other">Other</label>
+                </div>
             </div>
             <input type="email" name="email" placeholder="Email" required>
             <input type="email" name="rpt-email" placeholder="Conferma email" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="rpt-password" placeholder="Conferma password" required>
-            <div id="errMsg"></div>
+            <div id="errMsg" class="error-message"></div>
             <input type="submit" value="Registrati">
         </form>
     </div>
