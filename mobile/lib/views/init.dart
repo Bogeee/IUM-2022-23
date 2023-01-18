@@ -4,10 +4,12 @@ import 'package:proj/models/notifiers.dart';
 
 // Models
 import 'package:proj/models/user.dart';
-import 'package:proj/views/login/login.dart';
-import 'package:proj/views/onboarding/onboarding.dart';
-import 'package:proj/views/register/register.dart';
 import 'package:provider/provider.dart';
+
+// Views
+import 'package:proj/views/login/login.dart';
+import 'package:proj/views/main/main_screen.dart';
+import 'package:proj/views/onboarding/onboarding.dart';
 
 class InitView extends StatefulWidget {
   const InitView({super.key});
@@ -96,8 +98,7 @@ class _InitViewState extends State<InitView> {
           if (_firstOpening) {
             return const OnboardingPage();
           } else {
-            // FIXME: HomeView if the user is saved
-            return _isSaved ? const RegisterView() : const LoginView();
+            return _isSaved ? const MainScreen() : const LoginView();
           }
         } else {
           return Scaffold(
