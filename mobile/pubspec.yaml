@@ -61,6 +61,12 @@ dependencies:
   # The following adds WebViews to Flutter
   webview_flutter: ^4.0.1
 
+  # The following adds animations
+  animations: ^2.0.7
+
+  # The following adds a shadow for every widget
+  simple_shadow: ^0.3.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -85,13 +91,18 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    # images
     - assets/images/onboarding/o1.png
     - assets/images/onboarding/o2.png
     - assets/images/onboarding/o3.png
+    - assets/images/home/free_week.png
+    # icons
     - assets/icons/at-solid.svg
     - assets/icons/eye-regular.svg
     - assets/icons/eye-slash-regular.svg
     - assets/icons/lock-tick.svg
+    - assets/icons/chart-line-solid.svg
+    # register page
     - assets/register/register.css
     - assets/register/register.html
     - assets/register/register.js

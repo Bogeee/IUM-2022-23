@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 // constants, themes and utilities
 import 'package:proj/light_theme.dart';
 import 'package:proj/dark_theme.dart';
-import 'package:proj/views/init.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -15,6 +14,8 @@ import 'package:proj/models/build_db.dart';
 import 'package:proj/views/onboarding/onboarding.dart';
 import 'package:proj/views/login/login.dart';
 import 'package:proj/views/register/register.dart';
+import 'package:proj/views/init.dart';
+import 'package:proj/views/main/main_screen.dart';
 
 void main() async 
 {
@@ -49,12 +50,13 @@ class MyApp extends StatelessWidget {
       title: 'Ripetizioni',
       theme: isDark ? darkTheme : lightTheme,
       home: const OnboardingPage(),
-      initialRoute: '/init',
+      initialRoute: '/main',
       routes: {
         '/init': (context) => const InitView(),
         '/onboarding': (context) => const OnboardingPage(),
         '/login': (context) => const LoginView(),
         '/register': (context) => const RegisterView(),
+        '/main': (context) => const MainScreen(),
       },
     );
   }
