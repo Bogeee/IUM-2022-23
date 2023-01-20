@@ -102,11 +102,12 @@ class _InitViewState extends State<InitView> {
           }
         } else {
           return Scaffold(
-              body: Center(
-            child: CircularProgressIndicator(
-              color: Provider.of<ThemeNotifier>(context).accentColor,
-            ),
-          ));
+            body: Center(
+              child: CircularProgressIndicator(
+                color: Provider.of<ThemeNotifier>(context).accentColor,
+              ),
+            )
+          );
         }
       }
     );

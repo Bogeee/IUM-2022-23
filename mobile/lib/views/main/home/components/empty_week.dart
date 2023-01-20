@@ -63,14 +63,14 @@ class EmptyWeek extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: isDark
                                   ? Colors.white
-                                  : const Color(0xFF0F172A),
+                                  : Color.fromARGB(255, 0, 10, 34),
                               fontSize: 16),
                         ),
                         const SizedBox(height: 0.75 * defaultPadding),
                         const Text(
                           'Buona settimana',
                           style:
-                              TextStyle(color: Color(0xff4E4D4D), fontSize: 12),
+                              TextStyle(color: Color(0xff4E4D4D), fontSize: 13),
                         )
                       ],
                     )

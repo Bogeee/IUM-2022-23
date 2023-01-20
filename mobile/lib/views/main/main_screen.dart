@@ -28,8 +28,27 @@ class _MainScreenState extends State<MainScreen> {
     Color menuBackgroundColor = isDark ? Colors.white54 : const Color(0xfff0f0f0);
     Color appBarForegroundColor = isDark ? Colors.black : Colors.white; 
 
+    final Map<String, int> _pageIndexes = {
+      'Home' : 0,
+      'Prenota' : 1,
+      'Storico' : 2,
+      'Profilo' : 3
+    };
+
+    void _setBookPage() {
+      setState(() {
+        _currentIndex = _pageIndexes['Prenota']!;
+      });
+    }
+
+    void _changePage(String mainScreenRoute) {
+      setState(() {
+        _currentIndex = _pageIndexes[mainScreenRoute]!;
+      });
+    }
+
     final List<Widget> _children = [
-      const UserHomePage(),
+      UserHomePage(changePageCallback: _setBookPage),
       const Center(child: Text('Prenota')),
       const Center(child: Text('Storico')),
       const Center(child: Text('Profilo')),
@@ -47,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        // prevent defaul behavior on Android back button pressed
+        // prevent default behavior on Android back button pressed
         return false;
       },
       child: Scaffold(
@@ -86,7 +105,7 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/house-solid.svg",
                 color: _currentIndex == 0? accent : unselectedItemColor,
                 height: 16,
               ),

@@ -52,6 +52,7 @@ Future<void> createDB() async {
         "(OraF >= 16 AND OraF <= 19)), "
         "Stato INTEGER DEFAULT 0 NOT NULL "
         "CHECK(Stato >= 0 AND Stato <= 2), "
+        "Argomento VARCHAR(512), "
         "PRIMARY KEY(Corso, Giorno, Studente, OraI), "
         "FOREIGN KEY(Corso) REFERENCES Corsi(ID), "
         "FOREIGN KEY(Studente) REFERENCES Users(ID)"
@@ -173,7 +174,7 @@ Future<void> createDB() async {
     );
 
     // Insert Users
-    // Bcrypt password hashes, cost_factor = 10
+    // Bcrypt password hashes, cost_factor = 10, salt = '\$2y'
     // ----------------------------------------
     // admin@ripetizioni.it:administrator
     // filippo.bogetti@edu.unito.it:password
@@ -187,6 +188,14 @@ Future<void> createDB() async {
           "('Filippo', 'Bogetti', 'filippo.bogetti@edu.unito.it', '\$2y\$10\$YGXS0..6HcJOUjSZSBZbWuDyTe4G9K5eyQgAhk3YO5YzJpyR0nES6', 0), "
           "('Stefano', 'Fontana', 'stefano.fontana266@edu.unito.it', '\$2y\$10\$YGXS0..6HcJOUjSZSBZbWuDyTe4G9K5eyQgAhk3YO5YzJpyR0nES6', 0), "
           "('Account', 'Non Usato', 'useless@polito.it', '\$2y\$10\$6IK1zP69iXD0eWqulA7JMOQgw9iopFDzgD6NbGZXmIwDAiMcwE4CK', 0);"
+    );
+
+    await db.execute(
+      "INSERT INTO Prenotazioni(Corso, Giorno, Studente, OraI, OraF, Stato, Argomento) VALUES "
+          "(1, 'Mercoledì', 2, 9, 10, 0, NULL),"
+          "(1, 'Mercoledì', 2, 10, 11, 0, 'Algoritmo di Dijkstra'),"
+          "(1, 'Giovedì', 2, 10, 11, 0, NULL),"
+          "(1, 'Mercoledì', 2, 11, 12, 0, NULL);"
     );
   });
 }

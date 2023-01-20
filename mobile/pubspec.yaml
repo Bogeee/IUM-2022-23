@@ -67,6 +67,9 @@ dependencies:
   # The following adds a shadow for every widget
   simple_shadow: ^0.3.0
 
+  # The following adds a Bezier chart in Flutter
+  bezier_chart: ^1.0.17+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -96,12 +99,27 @@ flutter:
     - assets/images/onboarding/o2.png
     - assets/images/onboarding/o3.png
     - assets/images/home/free_week.png
+    - assets/images/home/lessons.png
     # icons
     - assets/icons/at-solid.svg
     - assets/icons/eye-regular.svg
     - assets/icons/eye-slash-regular.svg
     - assets/icons/lock-tick.svg
     - assets/icons/chart-line-solid.svg
+    - assets/icons/house-solid.svg
+    - assets/icons/book-bookmark-solid.svg
+    - assets/icons/plus-solid.svg
+    - assets/icons/calendar-day-solid.svg
+    - assets/icons/calendar-days-solid.svg
+    - assets/icons/clock-regular.svg
+    - assets/icons/clock-solid.svg
+    - assets/icons/circle-check-regular.svg
+    - assets/icons/circle-xmark-regular.svg
+    - assets/icons/wand-magic-sparkles-solid.svg
+    - assets/icons/user-tie-solid.svg
+    - assets/icons/triangle-exclamation-solid.svg
+    - assets/icons/hand-point-up-regular.svg
+    - assets/icons/graduation-cap-solid.svg
     # register page
     - assets/register/register.css
     - assets/register/register.html

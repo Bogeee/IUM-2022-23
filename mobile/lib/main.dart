@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // constants, themes and utilities
 import 'package:proj/light_theme.dart';
 import 'package:proj/dark_theme.dart';
+import 'package:proj/views/main/home/lesson_details.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
       title: 'Ripetizioni',
       theme: isDark ? darkTheme : lightTheme,
       home: const OnboardingPage(),
-      initialRoute: '/main',
+      initialRoute: '/init',
       routes: {
         '/init': (context) => const InitView(),
         '/onboarding': (context) => const OnboardingPage(),
