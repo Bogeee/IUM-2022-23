@@ -14,6 +14,9 @@ To check if you have the latest version of a Flutter package, visit `https://pub
 - [Bcrypt](https://pub.dev/packages/bcrypt), used to store hashed passwords in the database. We are using `bcrypt` with the **Cost Factor** to `10`.
 - [Flutter Webview](https://pub.dev/packages/webview_flutter), used to show the **Registration page** website in the app.
 - [Path Provider](https://pub.dev/packages/path_provider), used to access the most common directories of the local storage.
+- [Animations](https://pub.dev/packages/animations), used to add the Shared X Axis animation when switching pages in the main screen.
+- [Simple Shadow](https://pub.dev/packages/simple_shadow), used to add the drop shadow to images with a transparent background. It could be used to add shadows to every Widget.
+- [Bezier Chart](https://pub.dev/packages/bezier_chart), used to add the Bezier Chart in the home page, it has a graphical bug when switching page and it's 2 years-old.
 
 ### Authors
 
