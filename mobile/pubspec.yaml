@@ -120,6 +120,12 @@ flutter:
     - assets/icons/triangle-exclamation-solid.svg
     - assets/icons/hand-point-up-regular.svg
     - assets/icons/graduation-cap-solid.svg
+    - assets/icons/circle-user-solid.svg
+    - assets/icons/circle-user-regular.svg
+    - assets/icons/user-gear-solid.svg
+    - assets/icons/user-graduate-solid.svg
+    - assets/icons/palette-solid.svg
+    - assets/icons/right-from-bracket-solid.svg
     # register page
     - assets/register/register.css
     - assets/register/register.html

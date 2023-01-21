@@ -22,8 +22,6 @@ class LessonDetails extends StatefulWidget{
 }
 
 class _LessonDetailsState extends State<LessonDetails> {
-  bool _operationCompleted = false;
-
   @override
   Widget build(BuildContext context) {
     int studentID = Provider.of<LoggedInNotifier>(context).userId;
@@ -127,13 +125,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                       flex: 2,
                       child: OutlinedButton(
                         onPressed: (){
-                          setState(() {
-                            _operationCompleted = false;
-                          });
                           cancelLesson(context, studentID);
-                          if(_operationCompleted){
-                            Navigator.of(context).pop();
-                          }
                         },
                         style: ButtonStyle(
                           foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
@@ -167,13 +159,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                         flex: 2,
                         child: OutlinedButton(
                           onPressed: (){
-                            setState(() {
-                              _operationCompleted = false;
-                            });
                             finishedLesson(context, studentID);
-                            if(_operationCompleted){
-                              Navigator.of(context).pop();
-                            }
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -214,7 +200,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                     onPressed: (){
                       // Non confermato
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(); // close dialog
                     },
                     style: ButtonStyle(
                       foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
@@ -236,12 +222,10 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                     onPressed: () {
                       // confermato, annullo la lezione
-                      setState(() {
-                        _operationCompleted = true;
-                      });
                       deleteLesson(widget.lesson, studentID);
                       widget.refreshUICallback();
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(); // close dialog
+                      Navigator.of(context).pop(); // close lesson_details
                     },
                     style: ButtonStyle(
                         foregroundColor:
@@ -284,7 +268,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                       onPressed: () {
                         // Non confermato
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // close dialog
                       },
                       style: ButtonStyle(
                           foregroundColor:
@@ -308,12 +292,10 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                       onPressed: () {
                         // confermato, annullo la lezione
-                        setState(() {
-                          _operationCompleted = true;
-                        });
                         completeLesson(widget.lesson, studentID);
                         widget.refreshUICallback();
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(); // close dialog
+                        Navigator.of(context).pop(); // close lesson_details
                       },
                       style: ButtonStyle(
                           foregroundColor:

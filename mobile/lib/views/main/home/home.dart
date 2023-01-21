@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:proj/views/main/home/components/empty_week.dart';
 import 'package:proj/views/main/home/components/no_planned_lessons.dart';
 import 'package:proj/views/main/home/components/planned_lessons.dart';
 import 'package:proj/views/main/home/components/titles.dart';
 import 'package:proj/views/main/home/components/weekly_lessons.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 
 // constants
 import 'package:proj/constants.dart';

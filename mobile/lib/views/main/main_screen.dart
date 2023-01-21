@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:animations/animations.dart';
+import 'package:proj/constants.dart';
+import 'package:proj/views/main/profile/profile.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -51,7 +53,7 @@ class _MainScreenState extends State<MainScreen> {
       UserHomePage(changePageCallback: _setBookPage),
       const Center(child: Text('Prenota')),
       const Center(child: Text('Storico')),
-      const Center(child: Text('Profilo')),
+      const UserProfilePage()
       // SearchLessonPage(),
       // HistoryPage(),
       // ProfilePage()
@@ -132,7 +134,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/circle-user-solid.svg",
                 color: _currentIndex == 3 ? accent : unselectedItemColor,
                 height: 16,
               ),
