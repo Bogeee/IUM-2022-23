@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:simple_shadow/simple_shadow.dart';
+
+// constants
 import 'package:proj/constants.dart';
-import 'package:proj/models/user.dart';
+
+// models
 import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
-import 'package:simple_shadow/simple_shadow.dart';
+import 'package:proj/models/user.dart';
 
 class UserProfilePage extends StatefulWidget{
   const UserProfilePage({super.key});
@@ -134,7 +138,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 ),
                 )
-              )
+              ),
+              const SizedBox(height: 15.1*defaultPadding,)
             ],
           ),
         )

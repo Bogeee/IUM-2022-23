@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:animations/animations.dart';
+
+// constants
 import 'package:proj/constants.dart';
-import 'package:proj/views/main/profile/profile.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -10,6 +11,8 @@ import 'package:proj/models/notifiers.dart';
 
 // Views
 import 'package:proj/views/main/home/home.dart';
+import 'package:proj/views/main/history/history.dart';
+import 'package:proj/views/main/profile/profile.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -52,7 +55,7 @@ class _MainScreenState extends State<MainScreen> {
     final List<Widget> _children = [
       UserHomePage(changePageCallback: _setBookPage),
       const Center(child: Text('Prenota')),
-      const Center(child: Text('Storico')),
+      UserHistoryPage(changePageCallback: _setBookPage),
       const UserProfilePage()
       // SearchLessonPage(),
       // HistoryPage(),
@@ -125,7 +128,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/box-archive-solid.svg",
                 color: _currentIndex == 2 ? accent : unselectedItemColor,
                 height: 16,
               ),

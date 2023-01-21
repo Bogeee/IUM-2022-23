@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+// constants
 import 'package:proj/constants.dart';
+
+// models
+import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/ripetizioni.dart';
+
+// views
 import 'package:proj/views/main/home/components/lesson_info_row.dart';
 import 'package:proj/views/main/home/components/titles.dart';
-import 'package:provider/provider.dart';
 
 class LessonDetails extends StatefulWidget{
   const LessonDetails({

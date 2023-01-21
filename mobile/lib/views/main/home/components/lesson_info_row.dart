@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:proj/models/notifiers.dart';
+
+// models
 import 'package:provider/provider.dart';
+import 'package:proj/models/notifiers.dart';
 
 class LessonInfoRowSeparator extends StatelessWidget {
   const LessonInfoRowSeparator({

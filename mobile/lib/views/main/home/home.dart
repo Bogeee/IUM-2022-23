@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:proj/views/main/home/components/empty_week.dart';
-import 'package:proj/views/main/home/components/no_planned_lessons.dart';
-import 'package:proj/views/main/home/components/planned_lessons.dart';
-import 'package:proj/views/main/home/components/titles.dart';
-import 'package:proj/views/main/home/components/weekly_lessons.dart';
 
 // constants
 import 'package:proj/constants.dart';
@@ -12,6 +7,13 @@ import 'package:proj/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/ripetizioni.dart';
+
+// views
+import 'package:proj/views/main/home/components/empty_week.dart';
+import 'package:proj/views/main/home/components/no_planned_lessons.dart';
+import 'package:proj/views/main/home/components/planned_lessons.dart';
+import 'package:proj/views/main/home/components/titles.dart';
+import 'package:proj/views/main/home/components/weekly_lessons.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({

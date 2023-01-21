@@ -3,7 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // constants
 import 'package:proj/constants.dart';
+
+// models
 import 'package:proj/models/ripetizioni.dart';
+
+// views
 import 'package:proj/views/main/home/components/labels.dart';
 import 'package:proj/views/main/home/lesson_details.dart';
 

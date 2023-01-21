@@ -1,6 +1,8 @@
+import 'package:sqflite/sqflite.dart';
+
+// models
 import 'package:proj/models/docenti.dart';
 import 'package:proj/models/materie.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:proj/models/corsi.dart';
 
 class Ripetizione {
