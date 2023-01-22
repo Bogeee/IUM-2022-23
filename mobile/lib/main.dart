@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
       title: 'Ripetizioni',
       theme: isDark ? darkTheme : lightTheme,
       home: const OnboardingPage(),
-      initialRoute: '/main',
+      initialRoute: '/init',
       routes: {
         '/init': (context) => const InitView(),
         '/onboarding': (context) => const OnboardingPage(),

@@ -115,8 +115,7 @@ class _LoginFormState extends State<LoginForm> {
                     if(remindMeController.value != null && remindMeController.value == true){
                       await User.writeUserToLocalStorage(loggedIn.user);
                     }
-                    // FIXME: set /home route
-                    Navigator.pushReplacementNamed(context, '/onboarding');
+                    Navigator.pushReplacementNamed(context, '/main');
                   } else {
                     // Login error
                     setState(() {

@@ -8,6 +8,7 @@ import 'package:proj/models/notifiers.dart';
 
 // Views
 import 'package:proj/views/main/home/home.dart';
+import 'package:proj/views/main/search_lesson/search_lesson.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -30,10 +31,10 @@ class _MainScreenState extends State<MainScreen> {
 
     final List<Widget> _children = [
       const UserHomePage(),
-      const Center(child: Text('Prenota')),
+      const SearchLessonPage(),
       const Center(child: Text('Storico')),
       const Center(child: Text('Profilo')),
-      // SearchLessonPage(),
+      // const Center(child: Text('Prenota')),
       // HistoryPage(),
       // ProfilePage()
     ];

@@ -1,9 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:bcrypt/bcrypt.dart';
 
-// models
-import 'package:proj/models/user.dart';
-
 class RegisterInfo {
   final bool _success;
   final String _message;
