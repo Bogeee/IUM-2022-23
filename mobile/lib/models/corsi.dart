@@ -25,15 +25,15 @@ Future<List<Materia>> getSubjectForStudent(int studentId) async {
   final db = await openDatabase('ripetizioni.db');
   List<Materia> subjects = [];
 
-  final result = await db.rawQuery("SELECT C.Materia "
+  final result = await db.rawQuery("SELECT DISTINCT C.Materia "
       "FROM Corsi AS C INNER JOIN Prenotazioni AS P "
       "ON P.Corso = C.ID "
-      "WHERE P.Studente = ? AND P.Stato <> 2 "
+      "INNER JOIN Materie AS M "
+          "ON M.Nome = C.Materia "
+      "WHERE P.Studente = ? AND P.Stato <> 2 AND M.valMateria = 'TRUE' "
       "ORDER BY Materia;",
       [studentId]
   );
-
-  // FIXME: bisogna controllare se la materia è valida oppure no??
 
   if(result.isEmpty) {
     return subjects;

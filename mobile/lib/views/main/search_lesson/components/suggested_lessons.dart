@@ -34,10 +34,16 @@ class SuggestedLessons extends StatefulWidget {
 class _SuggestedLessonsState extends State<SuggestedLessons> {
   List<Ripetizione> suggestedLessons = [];
   bool _checked = false;
+  bool _dbCall = false;
 
   Future<void> _suggestedLessonsFuture(studentId) async {
     if(!_checked) {
-      suggestedLessons = await getSuggestedLessons(widget.previousSubjects, studentId, 'Mercoledì');
+      if(!_dbCall){
+        setState(() {
+          _dbCall = true;
+        });
+        suggestedLessons = await getSuggestedLessons(widget.previousSubjects, studentId, 'Mercoledì');
+      }
       setState(() {
         _checked = true;
       });

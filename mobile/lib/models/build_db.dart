@@ -58,6 +58,14 @@ Future<void> createDB() async {
             "FOREIGN KEY(Studente) REFERENCES Users(ID)"
             ");");
 
+        // tmp table to fetch available lessons
+        await db.execute("CREATE TABLE Ripetizioni("
+            "Corso INT NOT NULL,"
+            "Giorno VARCHAR NOT NULL,"
+            "OraI INT NOT NULL,"
+            "OraF INT NOT NULL,"
+            "PRIMARY KEY (Corso, Giorno, OraI, OraF));");
+
         // Insert Docenti
         await db.execute("INSERT INTO Docenti(Nome, Cognome, Email) VALUES "
             "('Mario', 'Rossi', 'mario.rossi@gmail.com'), "

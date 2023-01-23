@@ -105,6 +105,7 @@ flutter:
     - assets/icons/chart-line-solid.svg
     - assets/icons/arrow-right-solid.svg
     - assets/icons/chevron-right-solid.svg
+    - assets/icons/chevron-up-solid.svg
     # register page
     - assets/register/register.css
     - assets/register/register.html

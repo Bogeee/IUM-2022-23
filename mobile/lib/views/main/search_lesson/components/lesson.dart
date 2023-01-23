@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:proj/constants.dart';
 import 'package:proj/models/ripetizioni.dart';
 import 'package:proj/views/main/home/lesson_details.dart';
+import 'package:simple_shadow/simple_shadow.dart';
 
 import 'lesson_detail.dart';
 
@@ -30,54 +31,72 @@ class Lesson extends StatelessWidget {
               )
           );
         },
-        child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white70, // FIXME: mettere colore giusto
-          shape: BoxShape.rectangle,
-          boxShadow: [
-            // FIXME: prima andava, era perfetto, ora non va più e non ho cambiato nulla
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 4,
-              blurRadius: 6,
-              offset: Offset(0, 3),
-            ),
-          ],
-          borderRadius: BorderRadius.circular(defaultPadding)
-        ),
-        child: Stack(
+        child: SimpleShadow(
+          sigma: 0,
+          offset: Offset(0,0),
+          child: Container(
+          decoration: BoxDecoration(
+              color: Color(0xfff6f6f6), // FIXME: mettere colore giusto
+              shape: BoxShape.rectangle,
+              boxShadow: [
+                // FIXME: prima andava, era perfetto, ora non va più e non ho cambiato nulla
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 4,
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(defaultPadding / 2)),
+          child: Stack(
             children: [
               Column(
                 children: [
                   // FIXME: settare icone giuste
-                  LessonDetailRow(detail: lesson.corso.materia.nome, header: true, iconPath: "",),
+                  LessonDetailRow(
+                    detail: lesson.corso.materia.nome,
+                    header: true,
+                    iconPath: "",
+                  ),
                   Row(
                     children: [
                       Column(
                         children: [
-                          LessonDetailRow(detail: lesson.giorno, iconPath: "",),
+                          LessonDetailRow(
+                            detail: lesson.giorno,
+                            iconPath: "",
+                          ),
                         ],
                       ),
                       Column(
                         children: [
-                          LessonDetailRow(detail: "${lesson.oraI}:00 - ${lesson.oraF}:00",iconPath: "",),
+                          LessonDetailRow(
+                            detail: "${lesson.oraI}:00 - ${lesson.oraF}:00",
+                            iconPath: "",
+                          ),
                         ],
                       ),
                     ],
                   ),
-                  LessonDetailRow(detail: "${lesson.corso.docente.nome} ${lesson.corso.docente.cognome}", iconPath: "",),
-              ],),
+                  LessonDetailRow(
+                    detail:
+                        "${lesson.corso.docente.nome} ${lesson.corso.docente.cognome}",
+                    iconPath: "",
+                  ),
+                ],
+              ),
               // FIXME: mettere icona giusta e posizionarla!!!
               Positioned(
                 top: 45,
                 right: 10,
                 child: SvgPicture.asset(
                   'assets/icons/chevron-right-solid.svg',
-                  width: 18,
+                  width: 14,
                 ),
               )
-          ],
+            ],
           ),
+        )
       ),
     );
   }

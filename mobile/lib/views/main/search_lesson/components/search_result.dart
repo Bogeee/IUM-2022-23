@@ -30,33 +30,44 @@ class SearchResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(defaultPadding/4, defaultPadding/4, 0, defaultPadding),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Risultati ricerca",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+    return Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.fromLTRB(
+                defaultPadding / 4, defaultPadding / 4, 0, defaultPadding),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Risultati ricerca",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: ListView.separated(
-            // physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Lesson(lesson: lessons[index], refreshUICallback: refreshUICallback,);
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 0.5 * defaultPadding,
-                );
-              },
-              itemCount: lessons.length),
-        ),
-      ],
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              child: ListView.separated(
+                  // physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Lesson(
+                      lesson: lessons[index],
+                      refreshUICallback: refreshUICallback,
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Container(
+                      height: 0.5 * defaultPadding,
+                      color: Colors.white,
+                    );
+                  },
+                  itemCount: lessons.length),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

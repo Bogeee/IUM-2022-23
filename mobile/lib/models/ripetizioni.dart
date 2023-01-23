@@ -218,14 +218,7 @@ Future<List<Ripetizione>> searchFreeLessons(int userId, String subject, Docente?
   final db = await openDatabase('ripetizioni.db');
   List<Ripetizione> freeLessons = [];
 
-  await db.execute("DROP TABLE IF EXISTS Ripetizioni;");
-  await db.execute("CREATE TABLE Ripetizioni("
-      "Corso INT NOT NULL,"
-      "Giorno VARCHAR NOT NULL,"
-      "OraI INT NOT NULL,"
-      "OraF INT NOT NULL,"
-      "PRIMARY KEY (Corso, Giorno, OraI, OraF));"
-  );
+  await db.execute("DELETE FROM Ripetizioni;");
 
   final courses = await db.query("Corsi", columns: ["ID"], where: "Materia = ? AND valCorso = 'TRUE'", whereArgs: [subject]);
 
@@ -233,7 +226,11 @@ Future<List<Ripetizione>> searchFreeLessons(int userId, String subject, Docente?
     int jLimit = 13;
     for (int i = 9; i <= 18; i++) {
       for(int j = i+1; j <= jLimit; j++) {
-        await db.rawInsert("INSERT INTO Ripetizioni VALUES (?, ?, ?, ?);", [course["ID"] as int, day, i, j]);
+        try{
+          await db.rawInsert("INSERT INTO Ripetizioni VALUES (?, ?, ?, ?);", [course["ID"] as int, day, i, j]);
+        } catch(e){
+          // NOP
+        }
       }
 
       if (i == 12) {
@@ -243,6 +240,7 @@ Future<List<Ripetizione>> searchFreeLessons(int userId, String subject, Docente?
     }
   }
 
+  // FIXME: SQL Injection
   final result = await db.rawQuery(
       "SELECT Ris.*, C.ID AS Corso, C.*, D.* "
           "FROM ( "
@@ -308,13 +306,10 @@ Future<List<Ripetizione>> getSuggestedLessons(List<Materia> previousSubjects, in
   List<Ripetizione> suggestedLessons = [];
 
   for(Materia subject in previousSubjects) {
-    for (int i = 9; i <= 18; i++) {
-      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, i, i+1, true));
-
-      if (i == 12) {
-        i = 14;
-      }
-    }
+      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 9, 10, true));
+      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 12, 13, true));
+      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 14, 15, true));
+      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 18, 19, true));
   }
 
   return suggestedLessons;
