@@ -60,7 +60,7 @@ Each operation can have a different cost. You have to find the minimum distance,
 \texttt{casa}\implies\texttt{cosmo}=3\cdot\mathrm{R_3+R_1}\\
 \texttt{casa}\to\texttt{cosa}\to\texttt{coma}\to\texttt{como}\to\texttt{cosmo}\\
 \texttt{casa}\to\texttt{casta}\to\texttt{costa}\to\texttt{costo}\to\texttt{cosmo}
-``` 
+```
 The path **must** contain only words from the wordlist.
 
 ## Implementation
@@ -77,7 +77,7 @@ All the words from the wordlist are stored in a simple `set` data structure:
 ``` 
 We've chosen to use this data structure because it doesn't allow duplicates and the implementation gives a $`O(1)`$ time complexity for accessing data.
 
-In the *Algorithms and Data Structures (ASD)* course we have studied the *dynamic programming* and the *Longest Common Subsequence* algorithm with some example genomes as input. The LCS algorithm is able to compare two strings and evaluate their similarity  only by doing insertions and deletions.
+In the *Algorithms and Data Structures (ASD)* course we have studied the *dynamic programming* and the *Longest Common Subsequence* algorithm with some example genomes as input. The LCS algorithm is able to compare two strings and evaluate their similarity only by doing insertions and deletions.
 
 In order to find the close alphabetical words of a given string, we've decided to implement a different *dynamic programming algorithm*: the **Wagner–Fischer algorithm** which computes the **Damerau–Levenshtein distance**. This [recursive function](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#Definition) returns the minimum number of operations needed to transform one word into another by using the following operations:
 * Insertion (I) and deletion (D) of a character (like the LCS algorithm)
@@ -220,18 +220,24 @@ def get_adjacencies(word :str, final :str) -> list[str]:
 	return result
 ```
 Let's examine the time complexity:
-* Addition: $`O(w\cdot a + n)`$, where $`w`$ is the length of the word and $`a`$ is the length of the alphabet.
+* Addition: $`O(w\cdot a + n)`$, where $`w`$ is the length of the word and $`a`$ is the length of the alphabet and n is the number of accessi al dizionario che si fanno per controllare se new_word è in words.
 * Deletion: $`O(w + n)`$, where $`w`$ is the length of the word.
 * Substitution: $`O(w\cdot a + n)`$, where $`w`$ is the length of the word and $`a`$ is the length of the alphabet.
 * Anagram: $`O(w\log(w)\cdot b + m)`$, where $`w`$ is the length of the word, $`b`$ is the length of the list of anagrams retrieved with $`m\cdot O(1)`$ operations in the `anagrams` dictionary.
 
-With the single character operations we add $`n`$ to the complexity, which is the number of $`O(1)`$ operations in the `words` set. In the end we have $`O(w\cdot a\cdot \log(w) + n + m)`$ that can be approximated to $`O(w\cdot a\cdot \log(w))`$. 
+With the single character operations we add $`n`$ to the complexity, which is the number of $`O(1)`$ operations in the `words` set. In the end we have $`O(w\cdot a\cdot \log(w) + n + m)`$ that can be approximated to $`O(w\cdot a\cdot \log(w))`$.
 
 Considering that in an Italian text, the medium length of the words is `5.4` (Wikipedia), this algorithm is more than 500 times faster than the previous approach, which was $`O(n)`$, where $`n`$ was the number of words in the dictionary.
 
 It returns an array of tuples in the format `(adjacent_word, cost_of_operation, name_of_operation)` which can be used to create edges of the graph between a word and its adjacencies.
 
-[...] -> more in the README.md, error management in case there is no path between source and dest.
+### Suboptimal and Optimal paths
+
+The **Networkx** library provides a function, `all_shortest_paths`, that given a graph, uses the Dijsktra algorithm to calculate all the shortest paths between two words given as parameters.
+
+After getting the paths, we store them in a list with their cost, obtained using `get_path_cost` function. The function `all_shortest_paths` returns all the shortest paths, but we want to distinguish them by their cost. All the paths whose cost is the minimum cost are **optimal paths**, while others are considered **suboptimal paths**, which are the paths with the same number of operations as the best path but with an higher cost.
+
+We decided to print suboptimal paths only in a short way and with their cost, while for optimal paths we added the printing of the details of every edge that composes the path, specifing the operation applied to go from a node to another one.
 
 ## Authors
 
