@@ -33,13 +33,18 @@ class _LessonDetailsState extends State<LessonDetails> {
     int studentID = Provider.of<LoggedInNotifier>(context).userId;
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
-    Color appBarForegroundColor = isDark ? Colors.black : Colors.white; 
+    Color appBarForegroundColor = isDark ? Colors.black : Colors.white;
+    TextEditingController txtArgomento = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: accent,
         foregroundColor: appBarForegroundColor,
-        title: widget.lesson.stato == 0 ? const Text('Modifica ripetizione') : const Text('Ripetizione'),
+        title: widget.lesson.stato == 0 
+            ? const Text('Modifica ripetizione') 
+            : widget.lesson.stato == 4
+                ? const Text('Prenota ripetizione')
+                : const Text('Ripetizione')
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -97,6 +102,12 @@ class _LessonDetailsState extends State<LessonDetails> {
                   item_title: 'Stato', 
                   item: "Annullata"
                 ),
+              if(widget.lesson.stato == 4)
+                const LessonInfoRow(
+                    icon_path: 'assets/icons/wand-magic-sparkles-solid.svg', // FIXME: che icona mettiamo ???
+                    item_title: 'Stato',
+                    item: "Disponibile"
+                ),
               const LessonInfoRowSeparator(),
               if (widget.lesson.argomento != "")
                 LessonInfoRow(
@@ -124,6 +135,46 @@ class _LessonDetailsState extends State<LessonDetails> {
               const LessonInfoRowSeparator(),
               const SizedBox(height: 2*defaultPadding,),
               
+              if(widget.lesson.stato == 4)
+                Row(
+                  children: [
+                    Column(
+                      children: [
+                        const Text("Inserisci l'argomento (opzionale)"),
+                        SizedBox(
+                          width: 300,
+                          height: 250,
+                          child: Center(
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey, width: 0.0),
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
+                              maxLength: 512,
+                              maxLines: 5,
+                              controller: txtArgomento,
+                              buildCounter: (
+                                BuildContext context, {
+                                required int currentLength,
+                                required int? maxLength,
+                                required bool isFocused,
+                              }) {
+                                return Text(
+                                  '$currentLength di $maxLength caratteri',
+                                  semanticsLabel: 'conteggio caratteri',
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+
               if(widget.lesson.stato == 0)
                 Row(
                   children: [
@@ -182,7 +233,44 @@ class _LessonDetailsState extends State<LessonDetails> {
                         )
                       )
                   ],
-                )
+                ),
+
+                if(widget.lesson.stato == 4)
+                  Row(children: [
+                  Expanded(
+                      flex: 2,
+                      child: OutlinedButton(
+                        onPressed: () async {
+                          String result = await insertLesson(widget.lesson, txtArgomento.text);
+                          if(result == "OK") {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Prenotazione inserita con successo')));
+                            widget.refreshUICallback();
+                            Navigator.of(context).pop(); // close lesson_details
+                          } else if (result == "KO") {
+                            showError(context, "Hai già un'altra lezione in questo giorno e a questo orario");
+                          }
+                        },
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                                Colors.blue.withOpacity(0.20)),
+                            textStyle: MaterialStateProperty.all<TextStyle>(
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                            side: MaterialStateProperty.all<BorderSide>(
+                                const BorderSide(color: Colors.blue, width: 2)
+                            )
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text('Prenota')
+                          ],
+                        ),
+                      )
+                    ),
+                ]
+              )
             ],
           ),
         ),
@@ -325,5 +413,52 @@ class _LessonDetailsState extends State<LessonDetails> {
         );
       },
     );
+  }
+
+  // FIXME: mettere stile all'alert dialog che sembri di più segnalazione di errore
+  void showError(BuildContext context, String message) {
+    showDialog(
+        context: context,
+        builder: (builder) {
+          return AlertDialog(
+            // FIXME: bisogna cambiare il colore dell'alert in base al tema???
+            // backgroundColor: ,
+            title: const Text("Attenzione!"),
+            content: Text("$message"),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const SizedBox(
+                    width: defaultPadding,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(Colors.blue),
+                            overlayColor: MaterialStateProperty.all<Color>(
+                                Colors.white.withOpacity(0.20)),
+                            textStyle: MaterialStateProperty.all<TextStyle>(
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                            side: MaterialStateProperty.all<BorderSide>(
+                                const BorderSide(
+                                    color: Colors.blue, width: 2))),
+                        child: const Text('Ok')),
+                  ),
+                  const SizedBox(
+                    width: defaultPadding,
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
   }
 }

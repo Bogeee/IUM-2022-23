@@ -101,7 +101,10 @@ flutter:
     - assets/images/home/free_week.png
     - assets/images/home/lessons.png
     - assets/images/history/homework.png
+    - assets/images/home/search2.png
     # icons
+    - assets/icons/arrow-right-solid.svg
+    - assets/icons/chevron-right-solid.svg
     - assets/icons/at-solid.svg
     - assets/icons/eye-regular.svg
     - assets/icons/eye-slash-regular.svg
@@ -128,6 +131,7 @@ flutter:
     - assets/icons/palette-solid.svg
     - assets/icons/right-from-bracket-solid.svg
     - assets/icons/box-archive-solid.svg
+    - assets/icons/magnifying-glass-solid.svg
     # register page
     - assets/register/register.css
     - assets/register/register.html

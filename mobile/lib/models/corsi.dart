@@ -1,3 +1,6 @@
+import 'package:sqflite/sqflite.dart';
+
+// Models
 import 'package:proj/models/docenti.dart';
 import 'package:proj/models/materie.dart';
 
@@ -18,4 +21,33 @@ class Corso {
   Docente get docente => _docente;
   Materia get materia => _materia;
   bool get valido => _valido;
+}
+
+Future<List<Materia>> getSubjectForStudent(int studentId) async {
+  final db = await openDatabase('ripetizioni.db');
+  List<Materia> subjects = [];
+
+  final result = await db.rawQuery(
+      "SELECT DISTINCT C.Materia "
+      "FROM Corsi AS C INNER JOIN Prenotazioni AS P "
+      "ON P.Corso = C.ID "
+      "INNER JOIN Materie AS M "
+      "ON M.Nome = C.Materia "
+      "WHERE P.Studente = ? AND P.Stato <> 2 AND M.valMateria = 'TRUE' "
+      "ORDER BY Materia;",
+      [studentId]);
+
+  if (result.isEmpty) {
+    return subjects;
+  }
+
+  Materia m;
+
+  result.forEach((row) {
+    m = Materia.fromData(row["Materia"], true);
+
+    subjects.add(m);
+  });
+
+  return subjects;
 }

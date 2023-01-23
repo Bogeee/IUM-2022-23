@@ -13,6 +13,8 @@ import 'package:proj/models/notifiers.dart';
 import 'package:proj/views/main/home/home.dart';
 import 'package:proj/views/main/history/history.dart';
 import 'package:proj/views/main/profile/profile.dart';
+import 'package:proj/views/main/search_lesson/search_lesson.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -54,7 +56,7 @@ class _MainScreenState extends State<MainScreen> {
 
     final List<Widget> _children = [
       UserHomePage(changePageCallback: _setBookPage),
-      const Center(child: Text('Prenota')),
+      const SearchLessonPage(),
       UserHistoryPage(changePageCallback: _setBookPage),
       const UserProfilePage()
       // SearchLessonPage(),
@@ -119,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/magnifying-glass-solid.svg",
                 color: _currentIndex == 1 ? accent : unselectedItemColor,
                 height: 16,
               ),
