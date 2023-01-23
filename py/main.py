@@ -86,6 +86,14 @@ def build_graph(initial :str, final :str):
 		for (adj, cost, label) in get_adjacencies(initial, final):
 			G.add_edge(initial, adj, weight=cost, op=label)
 
+def get_path_cost(path):
+	details = nx.path_graph(path)
+	total_cost :int = 0
+	for edge in details.edges():
+		edge_details = G.edges[edge[0], edge[1]]
+		total_cost = total_cost + edge_details['weight']
+	return total_cost
+
 if __name__ == '__main__':
 	# colorama module initialization
 	init(autoreset=True)
@@ -144,25 +152,20 @@ if __name__ == '__main__':
 		# Get the minimum cost
 		min_path_cost :int = 10000 # it is impossible to reach
 		for path in paths:
-			details = nx.path_graph(path)
-			total_cost :int = 0
-			for edge in details.edges():
-				edge_details = G.edges[edge[0], edge[1]]
-				total_cost = total_cost + edge_details['weight']
+			total_cost = get_path_cost(path=path)
 			if total_cost < min_path_cost:
 				min_path_cost = total_cost
 
 		# Divide best and alternative paths
 		for path in paths:
-			details = nx.path_graph(path)
-			total_cost :int = 0
-			for edge in details.edges():
-				edge_details = G.edges[edge[0], edge[1]]
-				total_cost = total_cost + edge_details['weight']
+			total_cost = get_path_cost(path=path)
 			if total_cost == min_path_cost:
 				best_paths.append(path)
 			else:
-				alternative_paths.append(path)
+				alternative_paths.append([path, total_cost])
+
+		# sorting the alternative paths in ascending order based on their cost
+		alternative_paths.sort(key=lambda x:x[1], reverse=False)
 
 		print('Done!')
 
@@ -179,13 +182,7 @@ if __name__ == '__main__':
 			print(ok_log_init + 'I cannot find suboptimal paths with the same number of steps as the best path.')
 
 		for path in alternative_paths:
-			print(path, end='\t')
-			details = nx.path_graph(path)
-			total_cost :int = 0
-			for edge in details.edges():
-				edge_details = G.edges[edge[0], edge[1]]
-				total_cost = total_cost + edge_details['weight']
-			print('Total cost: %d' % (total_cost))
+			print(f'{path[0]}\tTotal cost: {path[1]}')
 
 		print()
 
