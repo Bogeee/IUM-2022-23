@@ -27,26 +27,17 @@ class Lesson extends StatelessWidget {
                     lesson: lesson,
                     refreshUICallback: refreshUICallback,
                   )
-                  )
+                )
               )
           );
         },
         child: SimpleShadow(
-          sigma: 0,
-          offset: Offset(0,0),
+          sigma: 3,
+          offset: const Offset(2,2),
           child: Container(
           decoration: BoxDecoration(
-              color: Color(0xfff6f6f6), // FIXME: mettere colore giusto
+              color: const Color(0xfff6f6f6), // FIXME: mettere colore giusto
               shape: BoxShape.rectangle,
-              boxShadow: [
-                // FIXME: prima andava, era perfetto, ora non va più e non ho cambiato nulla
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 4,
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
               borderRadius: BorderRadius.circular(defaultPadding / 2)),
           child: Stack(
             children: [
@@ -88,10 +79,10 @@ class Lesson extends StatelessWidget {
               // FIXME: mettere icona giusta e posizionarla!!!
               Positioned(
                 top: 45,
-                right: 10,
+                right: 20,
                 child: SvgPicture.asset(
                   'assets/icons/chevron-right-solid.svg',
-                  width: 14,
+                  width: 11,
                 ),
               )
             ],

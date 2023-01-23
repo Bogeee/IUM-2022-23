@@ -81,23 +81,59 @@ class _SearchLessonPageState extends State<SearchLessonPage> {
                                 thickness: 2,
                                 indent: defaultPadding / 4,
                                 endIndent: defaultPadding / 4),
-                            SizedBox(
-                                height: MediaQuery.of(context).size.height > 600
-                                    ? MediaQuery.of(context).size.height - 400
-                                    : 400,
-                                child: _showResults
-                                    ? SearchResult(accent: accent, isDark: isDark, lessons: resultsOfSearch, refreshUICallback: _refreshUI,)
-                                    : (subjectForStudent.isEmpty
-                                        ? NoSuggestionsResult(
-                                            accent: accent, isDark: isDark)
-                                        : SuggestedLessons(
-                                            accent: accent,
-                                            isDark: isDark,
-                                            previousSubjects: subjectForStudent,
-                                            refreshUICallback: _refreshUI,
-                                          )))
+                            if(subjectForStudent.isNotEmpty || _showResults)
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      _showResults
+                                          ? 'Risultati ricerca'
+                                          : 'Potrebbero interessarti',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    )
+                                  )
+                                ],
+                              ),
+                            const SizedBox(height: 0.4*defaultPadding,),
+                            _showResults 
+                              ? SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: SearchResult(
+                                  accent: accent,
+                                  isDark: isDark,
+                                  lessons: resultsOfSearch,
+                                  refreshUICallback: _refreshUI,
+                                ),
+                              )
+                              : (subjectForStudent.isEmpty
+                                  ? Container(
+                                    height: MediaQuery.of(context).size.height > 600
+                                      ? MediaQuery.of(context).size.height - 420
+                                      : 400,
+                                    child: NoSuggestionsResult(
+                                            accent: accent, isDark: isDark),
+                                  )
+                                  : SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: SuggestedLessons(
+                                        accent: accent,
+                                        isDark: isDark,
+                                        previousSubjects: subjectForStudent,
+                                        refreshUICallback: _refreshUI,
+                                      ),
+                                    )
+                                )
+
+                            
                           ],
-                        ))));
+                        )
+                      )
+                    )
+                  );
           } else {
             return Center(
               child: CircularProgressIndicator(

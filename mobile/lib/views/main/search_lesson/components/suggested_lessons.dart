@@ -56,33 +56,21 @@ class _SuggestedLessonsState extends State<SuggestedLessons> {
 
     return FutureBuilder(future: _suggestedLessonsFuture(userId), builder: (BuildContext context, AsyncSnapshot snapshot) {
       if(_checked) {
-        return Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(defaultPadding/4, defaultPadding/4, 0, defaultPadding),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                    "Potrebbero interessarti",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                  ),
-              ),
-            ),
-              Expanded(
-                child: ListView.separated(
-                    // physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Lesson(lesson: suggestedLessons[index], refreshUICallback: widget.refreshUICallback,);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(
-                        height: 0.5 * defaultPadding,
-                      );
-                    },
-                    itemCount: suggestedLessons.length),
-              ),
-            ],
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return Lesson(
+              lesson: suggestedLessons[index],
+              refreshUICallback: widget.refreshUICallback,
+            );
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(
+              height: defaultPadding,
+            );
+          },
+          itemCount: suggestedLessons.length
         );
       } else {
         return Center(
@@ -91,6 +79,6 @@ class _SuggestedLessonsState extends State<SuggestedLessons> {
           ),
         );
       }
-    },);
+    });
   }
 }

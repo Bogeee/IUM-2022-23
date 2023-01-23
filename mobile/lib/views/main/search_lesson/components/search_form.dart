@@ -448,58 +448,81 @@ class _SearchFormState extends State<SearchForm> {
           )
         )
       ),
-      const SizedBox(height: defaultPadding),
-      OutlinedButton(
-        onPressed: () async {
-          TimeOfDay start = TimeOfDay(hour: int.parse(_selectedTimeFrom.split(":")[0]), minute: int.parse(_selectedTimeFrom.split(":")[1]));
-          TimeOfDay end = TimeOfDay(hour: int.parse(_selectedTimeTo.split(":")[0]), minute: int.parse(_selectedTimeTo.split(":")[1]));
+      const SizedBox(height: 0.5 * defaultPadding),
+      SizedBox(
+        width: MediaQuery.of(context).size.width - defaultPadding,
+        height: 40,
+        child: OutlinedButton(
+            onPressed: () async {
+              TimeOfDay start = TimeOfDay(
+                hour: int.parse(_selectedTimeFrom.split(":")[0]), 
+                minute: 0
+              );
+              TimeOfDay end = TimeOfDay(
+                hour: int.parse(_selectedTimeTo.split(":")[0]), 
+                minute: 0
+              );
 
-          if(_selectedSubject == "") {
-            showError("Devi selezionare una materia");
-          } else if(start.compareTo(end) >= 0) {
-            showError("Inserisci un intervallo di ore valido");
-          } else if(start.compareTo(const TimeOfDay(hour: 09, minute: 00)) < 0) {
-            showError("Inserisci un'ora di inizio maggiore o uguale a 9:00");
-          } else if(start.compareTo(const TimeOfDay(hour: 12, minute: 00)) > 0 && start.compareTo(const TimeOfDay(hour: 15, minute: 00)) < 0) {
-            showError("Inserisci un'ora di inizio minore o uguale a 12:00 oppure maggiore o uguale a 15:00");
-          } else if(start.compareTo(const TimeOfDay(hour: 18, minute: 00)) > 0) {
-            showError("Inserisci un'ora di inizio minore o uguale a 18:00");
-          } else if(end.compareTo(const TimeOfDay(hour: 10, minute: 00)) < 0) {
-            showError("Inserisci un'ora di fine maggiore o uguale a 10:00");
-          } else if(end.compareTo(const TimeOfDay(hour: 13, minute: 00)) > 0 && end.compareTo(const TimeOfDay(hour: 16, minute: 00)) < 0) {
-            showError("Inserisci un'ora di fine minore o uguale a 13:00 oppure maggiore o uguale a 16:00");
-          } else if(end.compareTo(const TimeOfDay(hour: 19, minute: 00)) > 0) {
-            showError("Inserisci un'ora di fine minore o uguale a 19:00");
-          } else {
-            List<Ripetizione> freeLessons = await searchFreeLessons(userId, _selectedSubject, _selectedProfessor, _selectedDay, start.hour, end.hour, false);
+              if (_selectedSubject == "") {
+                showError("Devi selezionare una materia");
+              } else if (start.compareTo(end) >= 0) {
+                showError("Inserisci un intervallo di ore valido");
+              } else if (start .compareTo(const TimeOfDay(hour: 09, minute: 00)) < 0) {
+                showError(
+                    "Inserisci un'ora di inizio maggiore o uguale a 9:00");
+              } else if (start .compareTo(const TimeOfDay(hour: 12, minute: 00)) > 0 &&
+                  start.compareTo(const TimeOfDay(hour: 15, minute: 00)) < 0) {
+                showError( "Inserisci un'ora di inizio minore o uguale a 12:00 oppure maggiore o uguale a 15:00");
+              } else if (start .compareTo(const TimeOfDay(hour: 18, minute: 00)) > 0) {
+                showError("Inserisci un'ora di inizio minore o uguale a 18:00");
+              } else if (end.compareTo(const TimeOfDay(hour: 10, minute: 00)) < 0) {
+                showError("Inserisci un'ora di fine maggiore o uguale a 10:00");
+              } else if (end.compareTo(const TimeOfDay(hour: 13, minute: 00)) > 0 &&
+                  end.compareTo(const TimeOfDay(hour: 16, minute: 00)) < 0) {
+                showError( "Inserisci un'ora di fine minore o uguale a 13:00 oppure maggiore o uguale a 16:00");
+              } else if (end.compareTo(const TimeOfDay(hour: 19, minute: 00)) > 0) {
+                showError("Inserisci un'ora di fine minore o uguale a 19:00");
+              } else {
+                List<Ripetizione> freeLessons = await searchFreeLessons(
+                  userId,
+                  _selectedSubject,
+                  _selectedProfessor,
+                  _selectedDay,
+                  start.hour,
+                  end.hour,
+                  false
+                );
 
-            widget.showSearchResultsCallback(freeLessons);
-          }
-        },
-        style: ButtonStyle(
-          foregroundColor: widget.isDark
-              ? MaterialStateProperty.all<Color>(Colors.black)
-              : MaterialStateProperty.all<Color>(Colors.white),
-          textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
-            fontWeight: FontWeight.w800,
-          )),
-          minimumSize: MaterialStateProperty.all<Size>(const Size(300, 50)),
-          maximumSize: MaterialStateProperty.all<Size>(const Size(500, 50)),
-          backgroundColor: MaterialStateProperty.all<Color>(widget.accent),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
+                widget.showSearchResultsCallback(freeLessons);
+              }
+            },
+            style: ButtonStyle(
+              foregroundColor: widget.isDark
+                ? MaterialStateProperty.all<Color>(Colors.black)
+                : MaterialStateProperty.all<Color>(Colors.white),
+              textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
+                fontWeight: FontWeight.w800,
+              )),
+              minimumSize: MaterialStateProperty.all<Size>(const Size(300, 50)),
+              maximumSize: MaterialStateProperty.all<Size>(const Size(500, 50)),
+              backgroundColor: MaterialStateProperty.all<Color>(widget.accent),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(defaultPadding * 10),
-                  side: BorderSide(color: widget.accent))),
-          overlayColor: MaterialStateProperty.all<Color>(
-              Colors.white.withOpacity(0.20)),
-        ),
-        child: const Text(
-          'Cerca',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        )),
+                  side: BorderSide(color: widget.accent)
+                )
+              ),
+              overlayColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.20) ),
+            ),
+            child: const Text(
+              'Cerca',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            )),
+
+      ),
     ]);
   }
 

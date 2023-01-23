@@ -308,7 +308,7 @@ Future<List<Ripetizione>> getSuggestedLessons(List<Materia> previousSubjects, in
   for(Materia subject in previousSubjects) {
       suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 9, 10, true));
       suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 12, 13, true));
-      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 14, 15, true));
+      suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 15, 16, true));
       suggestedLessons.addAll(await searchFreeLessons(userId, subject.nome, null, day, 18, 19, true));
   }
 
