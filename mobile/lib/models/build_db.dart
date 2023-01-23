@@ -201,7 +201,10 @@ Future<void> createDB() async {
       "(1, 'Mercoledì', 2, 9, 10, 0, NULL),"
       "(1, 'Mercoledì', 2, 10, 11, 0, 'Algoritmo di Dijkstra'),"
       "(1, 'Giovedì', 2, 10, 11, 0, NULL),"
-      "(1, 'Mercoledì', 2, 11, 12, 0, NULL);"
+      "(1, 'Mercoledì', 2, 11, 12, 0, NULL),"
+      "(1, 'Martedì', 2, 9, 10, 0, NULL),"
+      "(1, 'Martedì', 2, 10, 11, 1, NULL),"
+      "(1, 'Lunedì', 2, 11, 12, 2, NULL);"
     );
 
   });

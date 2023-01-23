@@ -216,6 +216,54 @@ Docente d;
   return nextLessons;
 }
 
+Future<List<Ripetizione>> getOldLessons(int userId) async {
+  final db = await openDatabase('ripetizioni.db');
+  List<Ripetizione> oldLessons = [];
+
+  final result = await db.rawQuery(
+      "SELECT Prenotazioni.*, Corsi.*, Docenti.* "
+      "FROM Prenotazioni "
+      "INNER JOIN Corsi "
+      "ON Prenotazioni.Corso = Corsi.ID "
+      "INNER JOIN Docenti "
+      "ON Corsi.Docente = Docenti.ID "
+      "WHERE Prenotazioni.Giorno IN ('Lunedì', 'Martedì') "
+      "AND Prenotazioni.Studente = ?",
+      [userId]);
+
+  if (result.isEmpty) {
+    return oldLessons;
+  }
+
+  Docente d;
+  Materia m;
+  Corso c;
+  Ripetizione r;
+
+  result.forEach((row) {
+    d = Docente.fromData(
+        row['Docente'] as int,
+        row['Nome'].toString(),
+        row['Cognome'].toString(),
+        row['Email'].toString(),
+        row['valDocente'] == 'TRUE' ? true : false);
+    m = Materia.fromData(row['Materia'] as String, true);
+    c = Corso.fromData(
+        row['Corso'] as int, d, m, row['valCorso'] == 'TRUE' ? true : false);
+    r = Ripetizione.fromData(
+        c,
+        row['Giorno'].toString(),
+        userId,
+        row['OraI'] as int,
+        row['OraF'] as int,
+        row['Stato'] as int,
+        row['Argomento'] ?? "");
+    oldLessons.add(r);
+  });
+
+  return oldLessons;
+}
+
 Future<void> deleteLesson(Ripetizione lesson, int userId) async{
   final db = await openDatabase('ripetizioni.db');
 

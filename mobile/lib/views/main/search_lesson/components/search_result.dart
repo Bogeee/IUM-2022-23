@@ -30,21 +30,32 @@ class SearchResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        return Lesson(
-          lesson: lessons[index],
-          refreshUICallback: refreshUICallback,
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const SizedBox(
-          height: defaultPadding,
-        );
-      },
-      itemCount: lessons.length
-    );
+    return lessons.isNotEmpty
+      ? ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (BuildContext context, int index) {
+            return Lesson(
+              lesson: lessons[index],
+              refreshUICallback: refreshUICallback,
+            );
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(
+              height: defaultPadding,
+            );
+          },
+          itemCount: lessons.length
+        )
+      : const Center(
+          child: Text(
+            'Non ci sono ripetizioni disponibili in base ai filtri che hai impostato. ' 
+              '\n\nProva a cambiare orario.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15
+              ),
+          ),
+      );
   }
 }

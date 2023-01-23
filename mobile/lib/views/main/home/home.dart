@@ -112,7 +112,7 @@ class _UserHomePageState extends State<UserHomePage> {
         } else {
           return Center(
             child: CircularProgressIndicator(
-              color: Provider.of<ThemeNotifier>(context).accentColor,
+              color: accent,
             ),
           );
         }

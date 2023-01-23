@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:proj/constants.dart';
 import 'package:proj/models/ripetizioni.dart';
+import 'package:proj/views/main/home/components/labels.dart';
 import 'package:proj/views/main/home/lesson_details.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -43,22 +44,37 @@ class Lesson extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  LessonDetailRow(
-                    detail: lesson.corso.materia.nome,
-                    header: true,
-                    iconPath: 'assets/icons/graduation-cap-solid.svg',
+                  Row(
+                    children: [
+                      LessonDetailRow(
+                          detail: lesson.corso.materia.nome,
+                          header: true,
+                          iconPath: 'assets/icons/graduation-cap-solid.svg',
+                        ),
+                      const SizedBox(width: defaultPadding,),
+                      if(lesson.stato != 4)
+                        if(lesson.stato == 0)
+                          const ActiveLabel(),
+                        if(lesson.stato == 1)
+                          const ExtendedCompletedLabel(),
+                        if(lesson.stato == 2)
+                          const CancelledLabel(),
+                    ],
                   ),
                   Row(
                     children: [
                       Column(
                         children: [
-                          LessonDetailRow(
+                          SizedBox(
+                            width: 130,
+                            child: LessonDetailRow(
                             detail: lesson.giorno,
                             iconPath: 'assets/icons/calendar-days-solid.svg',
                           ),
+                          )
                         ],
                       ),
-                      const SizedBox(width: 1.5 * defaultPadding,),
+                      // const SizedBox(width: 1.5 * defaultPadding,),
                       Column(
                         children: [
                           LessonDetailRow(

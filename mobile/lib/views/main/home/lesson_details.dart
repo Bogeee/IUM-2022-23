@@ -215,12 +215,16 @@ class _LessonDetailsState extends State<LessonDetails> {
                         ),
                       )
                     ),
-                    if(widget.lesson.giorno == 'Mercoledì')
+                    if(widget.lesson.giorno == 'Mercoledì'
+                       || widget.lesson.giorno == 'Martedì'
+                       || widget.lesson.giorno == 'Lunedì')
                       const Expanded(
                         flex: 1,
                         child: SizedBox()
                       ),
-                    if(widget.lesson.giorno == 'Mercoledì')
+                    if(widget.lesson.giorno == 'Mercoledì'
+                       || widget.lesson.giorno == 'Martedì'
+                       || widget.lesson.giorno == 'Lunedì')
                       Expanded(
                         flex: 2,
                         child: OutlinedButton(
