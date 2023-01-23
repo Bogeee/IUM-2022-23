@@ -18,24 +18,6 @@ class _RegisterViewState extends State<RegisterView> {
     WebViewController webCtl = WebViewController();
     webCtl.setJavaScriptMode(JavaScriptMode.unrestricted);
     webCtl.setBackgroundColor(Colors.white);
-    webCtl.setNavigationDelegate(
-      NavigationDelegate(
-        onProgress: (int progress) {
-          // Update loading bar.
-        },
-        onPageStarted: (String url) {},
-        onPageFinished: (String url) {},
-        onWebResourceError: (WebResourceError error) {
-          print(error);
-        },
-        onNavigationRequest: (NavigationRequest request) {
-          if (request.url.startsWith('https://www.youtube.com/')) {
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-      ),
-    );
 
     webCtl.loadFlutterAsset('assets/register/register.html');
     webCtl.addJavaScriptChannel('formDataChannel', onMessageReceived: (JavaScriptMessage message) async {

@@ -1,6 +1,5 @@
 import sys
 import os
-import heapq # my dijkstra implementation #TODO: Remove
 import string
 from colorama import Fore, Style, init
 import networkx as nx
@@ -23,7 +22,7 @@ sub_label :str = 'Sub'
 ang_label :str = 'Ang'
 
 ok_log_init = '[' + Fore.LIGHTGREEN_EX + 'OK' + Style.RESET_ALL + '] '
-expired_log_init = '[' + Fore.LIGHTRED_EX + 'Expired' + Style.RESET_ALL + '] '
+error_log_init = '[' + Fore.LIGHTRED_EX + 'ERROR' + Style.RESET_ALL + '] '
 
 def get_adjacencies(word :str, final :str) -> list[str]:
 	global words
@@ -75,45 +74,6 @@ def get_adjacencies(word :str, final :str) -> list[str]:
 
 	return result
 
-#TODO: Remove
-def dijkstra(initial :str, final :str) -> list[str]:
-	global words
-	global G
-
-	distances = {}
-	predecessors = {}
-	result = []
-
-	for w in words:
-		distances[w] = float('inf')
-		predecessors[w] = None
-
-	distances[initial] = 0
-	predecessors[initial] = None
-	distances[final] = float('inf')
-	predecessors[final] = None
-
-	queue = []
-	heapq.heappush(queue, (0, initial))
-
-	while queue:
-		distance, word = heapq.heappop(queue)
-		if word == final:
-			single_path = []
-			while word is not None:
-				single_path.append(word)
-				word = predecessors[word]
-			return single_path[::-1]
-
-		for neighbor in get_adjacencies(word, final):
-			new_distance = distance + 1
-			if new_distance < distances[neighbor]:
-				distances[neighbor] = new_distance
-				predecessors[neighbor] = word
-				heapq.heappush(queue, (new_distance, neighbor))
-
-	return result
-
 def build_graph(initial :str, final :str):
 	global words
 	global G
@@ -125,6 +85,14 @@ def build_graph(initial :str, final :str):
 	if initial not in words:
 		for (adj, cost, label) in get_adjacencies(initial, final):
 			G.add_edge(initial, adj, weight=cost, op=label)
+
+def get_path_cost(path):
+	details = nx.path_graph(path)
+	total_cost :int = 0
+	for edge in details.edges():
+		edge_details = G.edges[edge[0], edge[1]]
+		total_cost = total_cost + edge_details['weight']
+	return total_cost
 
 if __name__ == '__main__':
 	# colorama module initialization
@@ -177,72 +145,63 @@ if __name__ == '__main__':
 	best_paths = []
 	paths = []
 
-	for path in nx.all_shortest_paths(G, source=initial_word, target=final_word):
-		paths.append(path)
+	try:
+		for path in nx.all_shortest_paths(G, source=initial_word, target=final_word):
+			paths.append(path)
 
-	# Get the minimum cost
-	min_path_cost :int = 10000 # it is impossible to reach
-	for path in paths:
-		details = nx.path_graph(path)
-		total_cost :int = 0
-		for edge in details.edges():
-			edge_details = G.edges[edge[0], edge[1]]
-			total_cost = total_cost + edge_details['weight']
-		if total_cost < min_path_cost:
-			min_path_cost = total_cost
+		# Get the minimum cost
+		min_path_cost :int = 10000 # it is impossible to reach
+		for path in paths:
+			total_cost = get_path_cost(path=path)
+			if total_cost < min_path_cost:
+				min_path_cost = total_cost
 
-	# Divide best and alternative paths
-	for path in paths:
-		details = nx.path_graph(path)
-		total_cost :int = 0
-		for edge in details.edges():
-			edge_details = G.edges[edge[0], edge[1]]
-			total_cost = total_cost + edge_details['weight']
-		if total_cost == min_path_cost:
-			best_paths.append(path)
+		# Divide best and alternative paths
+		for path in paths:
+			total_cost = get_path_cost(path=path)
+			if total_cost == min_path_cost:
+				best_paths.append(path)
+			else:
+				alternative_paths.append([path, total_cost])
+
+		# sorting the alternative paths in ascending order based on their cost
+		alternative_paths.sort(key=lambda x:x[1], reverse=False)
+
+		print('Done!')
+
+		# Print suboptimal paths and their cost
+		# Suboptimal paths are the paths with the same number of operations as the best path
+		# but with an higher cost
+		if len(alternative_paths) > 1:
+			print(ok_log_init + 'Here are some paths you can use [' + Fore.LIGHTRED_EX \
+					+ 'suboptimal' + Style.RESET_ALL + ']: ')
+		elif len(alternative_paths) == 1:
+			print(ok_log_init + 'This is a possible path you can use [' + Fore.LIGHTRED_EX \
+					+ 'suboptimal' + Style.RESET_ALL + ']: ')
 		else:
-			alternative_paths.append(path)
+			print(ok_log_init + 'I cannot find suboptimal paths with the same number of steps as the best path.')
 
-	print('Done!')
+		for path in alternative_paths:
+			print(f'{path[0]}\tTotal cost: {path[1]}')
 
-	# Print suboptimal paths and their cost
-	# Suboptimal paths are the paths with the same number of operations as the best path
-	# but with an higher cost
-	if len(alternative_paths) > 1:
-		print(ok_log_init + 'Here are some paths you can use [' + Fore.LIGHTRED_EX \
-				  + 'suboptimal' + Style.RESET_ALL + ']: ')
-	elif len(alternative_paths) == 1:
-		print(ok_log_init + 'This is a possible path you can use [' + Fore.LIGHTRED_EX \
-				  + 'suboptimal' + Style.RESET_ALL + ']: ')
-	else:
-		print(ok_log_init + 'I cannot find suboptimal paths with the same number of steps as the best path.')
-
-	for path in alternative_paths:
-		print(path, end='\t')
-		details = nx.path_graph(path)
-		total_cost :int = 0
-		for edge in details.edges():
-			edge_details = G.edges[edge[0], edge[1]]
-			total_cost = total_cost + edge_details['weight']
-		print('Total cost: %d' % (total_cost))
-
-	print()
-
-	# Print best paths with their operations and cost
-	if len(best_paths) > 1:
-		print(ok_log_init + 'The following are the best possible paths and they are all equivalent: ')
-	elif len(best_paths):
-		print(ok_log_init + 'This is the best path possible, you cannot find existing alternatives with the same cost: ')
-
-	for path in best_paths:
 		print()
-		print(path)
-		details = nx.path_graph(path)
-		print('Operations:')
-		total_cost :int = 0
-		for edge in details.edges():
-			edge_details = G.edges[edge[0], edge[1]]
-			total_cost = total_cost + edge_details['weight']
-			print('\t', edge, G.edges[edge[0], edge[1]]['op'])
-		print('Total cost: %d' % (total_cost))
 
+		# Print best paths with their operations and cost
+		if len(best_paths) > 1:
+			print(ok_log_init + 'The following are the best possible paths and they are all equivalent: ')
+		elif len(best_paths):
+			print(ok_log_init + 'This is the best path possible, you cannot find existing alternatives with the same cost: ')
+
+		for path in best_paths:
+			print()
+			print(path)
+			details = nx.path_graph(path)
+			print('Operations:')
+			total_cost :int = 0
+			for edge in details.edges():
+				edge_details = G.edges[edge[0], edge[1]]
+				total_cost = total_cost + edge_details['weight']
+				print('\t', edge, G.edges[edge[0], edge[1]]['op'])
+			print('Total cost: %d' % (total_cost))
+	except nx.NetworkXNoPath:
+		print(f'\n{error_log_init}Impossible to find a path from {initial_word} and {final_word}')
