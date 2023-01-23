@@ -26,12 +26,12 @@ Future<List<Docente>> getProfessorBySubject(String subject) async {
   final db = await openDatabase('ripetizioni.db');
   List<Docente> professors = [];
 
-  final result = await db.rawQuery("SELECT D.* "
+  final result = await db.rawQuery(
+      "SELECT D.* "
       "FROM Corsi AS C INNER JOIN Docenti AS D ON D.ID = C.Docente "
       "WHERE C.Materia = ? AND D.valDocente = 'TRUE' AND C.valCorso = 'TRUE' "
       "ORDER BY D.Cognome, D.Nome;",
-      [subject]
-  );
+      [subject]);
 
   if (result.isEmpty) {
     return professors;
@@ -45,8 +45,7 @@ Future<List<Docente>> getProfessorBySubject(String subject) async {
         row['Nome'].toString(),
         row['Cognome'].toString(),
         row['Email'].toString(),
-        row['valDocente'] == 'TRUE' ? true : false
-    );
+        row['valDocente'] == 'TRUE' ? true : false);
 
     professors.add(d);
   });

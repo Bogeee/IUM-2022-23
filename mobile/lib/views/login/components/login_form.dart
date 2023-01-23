@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 // constants
 import 'package:proj/constants.dart';
-import 'package:proj/models/user.dart';
 
 // models
 import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/login_info.dart';
+import 'package:proj/models/user.dart';
 
 // views
 import 'package:proj/views/login/components/email_textfield.dart';

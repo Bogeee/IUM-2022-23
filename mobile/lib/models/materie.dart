@@ -16,11 +16,14 @@ class Materia {
 Future<List<String>> getSubjectsFromDB() async {
   final db = await openDatabase('ripetizioni.db');
 
-  final result =
-    await db.query('Materie', columns: ["Nome"], where: 'valMateria = ?', whereArgs: ["TRUE"], orderBy: "Nome");
+  final result = await db.query('Materie',
+      columns: ["Nome"],
+      where: 'valMateria = ?',
+      whereArgs: ["TRUE"],
+      orderBy: "Nome");
 
   List<String> materie = [];
-  for(var materia in result) {
+  for (var materia in result) {
     materie.add(materia["Nome"] as String);
   }
 
