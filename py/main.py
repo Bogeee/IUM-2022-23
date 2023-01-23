@@ -146,25 +146,21 @@ if __name__ == '__main__':
 	paths = []
 
 	try:
+		# Create a list of entries containing path and its cost
 		for path in nx.all_shortest_paths(G, source=initial_word, target=final_word):
-			paths.append(path)
+			paths.append([path, get_path_cost(path)])
 
-		# Get the minimum cost
-		min_path_cost :int = 10000 # it is impossible to reach
-		for path in paths:
-			total_cost = get_path_cost(path=path)
-			if total_cost < min_path_cost:
-				min_path_cost = total_cost
+		# Searching the minimum cost
+		min_path_cost = min(paths, key=lambda x:x[1])[1]
 
 		# Divide best and alternative paths
 		for path in paths:
-			total_cost = get_path_cost(path=path)
-			if total_cost == min_path_cost:
-				best_paths.append(path)
+			if path[1] == min_path_cost:
+				best_paths.append(path[0]) # we put only the path because while printing we have to retrieve each edge of the path
 			else:
-				alternative_paths.append([path, total_cost])
+				alternative_paths.append(path)
 
-		# sorting the alternative paths in ascending order based on their cost
+		# Sorting the alternative paths in ascending order based on their cost
 		alternative_paths.sort(key=lambda x:x[1], reverse=False)
 
 		print('Done!')
