@@ -42,9 +42,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
               const SizedBox(height: defaultPadding,),
               Center(
                 child: SimpleShadow(child: SvgPicture.asset(
-                      'assets/icons/user-graduate-solid.svg',
-                      // 'assets/icons/user-gear-solid.svg',
-                      width: 60,
+                    userDetails.isAdmin
+                      ? 'assets/icons/user-gear-solid.svg'
+                      : 'assets/icons/user-graduate-solid.svg',
+                      width: userDetails.isAdmin
+                        ? 80 // admin icon has different width
+                        : 60,
                       color: accent,
                     ),
                   )

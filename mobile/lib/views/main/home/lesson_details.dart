@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 // constants
 import 'package:proj/constants.dart';
+import 'package:proj/models/user.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -35,6 +36,7 @@ class _LessonDetailsState extends State<LessonDetails> {
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
     Color appBarForegroundColor = isDark ? Colors.black : Colors.white;
     TextEditingController txtArgomento = TextEditingController();
+    User? userInfo = Provider.of<LoggedInNotifier>(context).userDetails;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +44,7 @@ class _LessonDetailsState extends State<LessonDetails> {
         foregroundColor: appBarForegroundColor,
         title: widget.lesson.stato == 0 
             ? const Text('Modifica ripetizione') 
-            : widget.lesson.stato == 4
+            : widget.lesson.stato == 4 && !userInfo.isAdmin
                 ? const Text('Prenota ripetizione')
                 : const Text('Ripetizione')
       ),
@@ -138,7 +140,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                 ? const SizedBox(height: 2*defaultPadding,)
                 : const SizedBox(height: defaultPadding),
               
-              if(widget.lesson.stato == 4)
+              if(widget.lesson.stato == 4 && !userInfo.isAdmin)
                 Row(
                   children: const [
                     Text(
@@ -151,9 +153,9 @@ class _LessonDetailsState extends State<LessonDetails> {
                     )
                   ],
                 ),
-              if(widget.lesson.stato == 4)
+              if(widget.lesson.stato == 4 && !userInfo.isAdmin)
                 const SizedBox(height: 0.5 * defaultPadding,),
-              if (widget.lesson.stato == 4)
+              if (widget.lesson.stato == 4 && !userInfo.isAdmin)
                 TextField(
                   decoration: InputDecoration(
                     enabledBorder: const OutlineInputBorder(
@@ -248,7 +250,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   ],
                 ),
 
-                if(widget.lesson.stato == 4)
+                if(widget.lesson.stato == 4 && !userInfo.isAdmin)
                   Row(children: [
                   Expanded(
                       flex: 2,

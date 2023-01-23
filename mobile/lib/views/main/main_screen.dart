@@ -4,6 +4,8 @@ import 'package:animations/animations.dart';
 
 // constants
 import 'package:proj/constants.dart';
+import 'package:proj/models/user.dart';
+import 'package:proj/views/main/admin_main_screen.dart';
 
 // models
 import 'package:provider/provider.dart';
@@ -33,7 +35,8 @@ class _MainScreenState extends State<MainScreen> {
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
     Color unselectedItemColor = isDark ? Colors.white54 : const Color(0xff0F172A);
     Color menuBackgroundColor = isDark ? Colors.white54 : const Color(0xfff0f0f0);
-    Color appBarForegroundColor = isDark ? Colors.black : Colors.white; 
+    Color appBarForegroundColor = isDark ? Colors.black : Colors.white;
+    User? userInfo = Provider.of<LoggedInNotifier>(context).userDetails;
 
     final Map<String, int> _pageIndexes = {
       'Home' : 0,
@@ -59,9 +62,6 @@ class _MainScreenState extends State<MainScreen> {
       const SearchLessonPage(),
       UserHistoryPage(changePageCallback: _setBookPage),
       const UserProfilePage()
-      // SearchLessonPage(),
-      // HistoryPage(),
-      // ProfilePage()
     ];
 
     final List<Text> _appBarTitles = [
@@ -71,90 +71,92 @@ class _MainScreenState extends State<MainScreen> {
       const Text('Profilo')
     ];
 
-    return WillPopScope(
-      onWillPop: () async {
-        // prevent default behavior on Android back button pressed
-        return false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: accent,
-          foregroundColor: appBarForegroundColor,
-          automaticallyImplyLeading: false,
-          title: _appBarTitles[_currentIndex],
-        ),
-        body: PageTransitionSwitcher(
-          duration: const Duration(milliseconds: 200),
-          reverse: _currentIndex < _oldIndex,
-          transitionBuilder: (
-              child,
-              animation,
-              secondaryAnimation,
-            ) {
-              return SharedAxisTransition(
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                transitionType: SharedAxisTransitionType.horizontal,
-                child: child,
-              );
-            },
-          child: _children[_currentIndex],
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: menuBackgroundColor,
-          currentIndex: _currentIndex,
-          type: BottomNavigationBarType.fixed,
-          showUnselectedLabels: true,
-          selectedFontSize: 12,
-          unselectedFontSize: 12,
-          unselectedItemColor: unselectedItemColor,
-          selectedItemColor: accent,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                "assets/icons/house-solid.svg",
-                color: _currentIndex == 0? accent : unselectedItemColor,
-                height: 16,
-              ),
-              label: "Home",
-              tooltip: "Home"
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                "assets/icons/magnifying-glass-solid.svg",
-                color: _currentIndex == 1 ? accent : unselectedItemColor,
-                height: 16,
-              ),
-              label: "Prenota",
-              tooltip: "Prenota"
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                "assets/icons/box-archive-solid.svg",
-                color: _currentIndex == 2 ? accent : unselectedItemColor,
-                height: 16,
-              ),
-              label: "Storico",
-              tooltip: "Storico"
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                "assets/icons/circle-user-solid.svg",
-                color: _currentIndex == 3 ? accent : unselectedItemColor,
-                height: 16,
-              ),
-              label: "Profilo",
-              tooltip: "Profilo"
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              _oldIndex = _currentIndex;
-              _currentIndex = index;
-            });
+    return !userInfo.isAdmin
+      ? WillPopScope(
+          onWillPop: () async {
+            // prevent default behavior on Android back button pressed
+            return false;
           },
+          child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: accent,
+              foregroundColor: appBarForegroundColor,
+              automaticallyImplyLeading: false,
+              title: _appBarTitles[_currentIndex],
+            ),
+            body: PageTransitionSwitcher(
+              duration: const Duration(milliseconds: 200),
+              reverse: _currentIndex < _oldIndex,
+              transitionBuilder: (
+                  child,
+                  animation,
+                  secondaryAnimation,
+                ) {
+                  return SharedAxisTransition(
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    transitionType: SharedAxisTransitionType.horizontal,
+                    child: child,
+                  );
+                },
+              child: _children[_currentIndex],
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: menuBackgroundColor,
+              currentIndex: _currentIndex,
+              type: BottomNavigationBarType.fixed,
+              showUnselectedLabels: true,
+              selectedFontSize: 12,
+              unselectedFontSize: 12,
+              unselectedItemColor: unselectedItemColor,
+              selectedItemColor: accent,
+              items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      "assets/icons/house-solid.svg",
+                      color: _currentIndex == 0? accent : unselectedItemColor,
+                      height: 16,
+                    ),
+                    label: "Home",
+                    tooltip: "Home"
+                  ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/icons/magnifying-glass-solid.svg",
+                    color: _currentIndex == 1 ? accent : unselectedItemColor,
+                    height: 16,
+                  ),
+                  label: "Prenota",
+                  tooltip: "Prenota"
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/icons/box-archive-solid.svg",
+                    color: _currentIndex == 2 ? accent : unselectedItemColor,
+                    height: 16,
+                  ),
+                  label: "Storico",
+                  tooltip: "Storico"
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    "assets/icons/circle-user-solid.svg",
+                    color: _currentIndex == 3 ? accent : unselectedItemColor,
+                    height: 16,
+                  ),
+                  label: "Profilo",
+                  tooltip: "Profilo"
+                ),
+              ],
+              onTap: (index) {
+                setState(() {
+                  _oldIndex = _currentIndex;
+                  _currentIndex = index;
+                });
+              },
+            )
+          ),
         )
-      ),
-    );
+      : const AdminMainScreen();
   }
 }
