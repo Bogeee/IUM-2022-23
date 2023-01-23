@@ -20,7 +20,7 @@ Future<RegisterInfo> registerUser( String nome, String cognome, String email, St
         'Nome': nome,
         'Cognome': cognome,
         'Email': email,
-        'Pwd': BCrypt.hashpw(password, BCrypt.gensalt(prefix: '\$2y')), // FIXME: to check
+        'Pwd': BCrypt.hashpw(password, BCrypt.gensalt(prefix: '\$2y')),
         'isAdmin': 0
       });
 

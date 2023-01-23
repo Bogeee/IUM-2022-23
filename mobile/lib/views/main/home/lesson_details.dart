@@ -40,11 +40,11 @@ class _LessonDetailsState extends State<LessonDetails> {
       appBar: AppBar(
         backgroundColor: accent,
         foregroundColor: appBarForegroundColor,
-        title: widget.lesson.stato == 0
-            ? const Text('Modifica ripetizione')
+        title: widget.lesson.stato == 0 
+            ? const Text('Modifica ripetizione') 
             : widget.lesson.stato == 4
                 ? const Text('Prenota ripetizione')
-                : const Text('Ripetizione'),
+                : const Text('Ripetizione')
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -57,18 +57,18 @@ class _LessonDetailsState extends State<LessonDetails> {
               ),
               LessonInfoRow(
                   icon_path: 'assets/icons/graduation-cap-solid.svg',
-                  item_title: 'Materia',
+                  item_title: 'Materia', 
                   item: widget.lesson.corso.materia.nome),
               const LessonInfoRowSeparator(),
               widget.lesson.giorno == 'Mercoledì'
                   ? const LessonInfoRow(
                       icon_path: 'assets/icons/calendar-day-solid.svg',
-                      item_title: 'Giorno',
+                      item_title: 'Giorno', 
                       item: 'Oggi'
                     )
                   : LessonInfoRow(
                       icon_path: 'assets/icons/calendar-day-solid.svg',
-                      item_title: 'Giorno',
+                      item_title: 'Giorno', 
                       item: widget.lesson.giorno
                     ),
               const LessonInfoRowSeparator(),
@@ -80,29 +80,29 @@ class _LessonDetailsState extends State<LessonDetails> {
               const LessonInfoRowSeparator(),
               LessonInfoRow(
                 icon_path: 'assets/icons/clock-solid.svg',
-                item_title: 'Ora fine',
+                item_title: 'Ora fine', 
                 item: "${widget.lesson.oraF.toString()}.00"
               ),
               const LessonInfoRowSeparator(),
               if (widget.lesson.stato == 0)
                 const LessonInfoRow(
                   icon_path: 'assets/icons/wand-magic-sparkles-solid.svg',
-                  item_title: 'Stato',
+                  item_title: 'Stato', 
                   item: "Attiva"
                 ),
               if (widget.lesson.stato == 1)
                 const LessonInfoRow(
                   icon_path: 'assets/icons/circle-check-regular.svg',
-                  item_title: 'Stato',
+                  item_title: 'Stato', 
                   item: "Completata"
                 ),
               if (widget.lesson.stato == 2)
                 const LessonInfoRow(
                   icon_path: 'assets/icons/circle-xmark-regular.svg',
-                  item_title: 'Stato',
+                  item_title: 'Stato', 
                   item: "Annullata"
                 ),
-              if (widget.lesson.stato == 4)
+              if(widget.lesson.stato == 4)
                 const LessonInfoRow(
                     icon_path: 'assets/icons/wand-magic-sparkles-solid.svg', // FIXME: che icona mettiamo ???
                     item_title: 'Stato',
@@ -112,7 +112,7 @@ class _LessonDetailsState extends State<LessonDetails> {
               if (widget.lesson.argomento != "")
                 LessonInfoRow(
                   icon_path: 'assets/icons/hand-point-up-regular.svg',
-                  item_title: 'Argomento',
+                  item_title: 'Argomento', 
                   item: widget.lesson.argomento
                 ),
               if (widget.lesson.argomento != "") const LessonInfoRowSeparator(),
@@ -129,11 +129,12 @@ class _LessonDetailsState extends State<LessonDetails> {
               const LessonInfoRowSeparator(),
               LessonInfoRow(
                 icon_path: 'assets/icons/at-solid.svg',
-                item_title: 'Email',
+                item_title: 'Email', 
                 item: widget.lesson.corso.docente.email
               ),
               const LessonInfoRowSeparator(),
               const SizedBox(height: 2*defaultPadding,),
+              
               if(widget.lesson.stato == 4)
                 Row(
                   children: [
@@ -142,27 +143,31 @@ class _LessonDetailsState extends State<LessonDetails> {
                         const Text("Inserisci l'argomento (opzionale)"),
                         SizedBox(
                           width: 300,
-                          height: 300,
-                          child: TextField(
-                            decoration: const InputDecoration(enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey, width: 0.0),
+                          height: 250,
+                          child: Center(
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.grey, width: 0.0),
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
+                              maxLength: 512,
+                              maxLines: 5,
+                              controller: txtArgomento,
+                              buildCounter: (
+                                BuildContext context, {
+                                required int currentLength,
+                                required int? maxLength,
+                                required bool isFocused,
+                              }) {
+                                return Text(
+                                  '$currentLength di $maxLength caratteri',
+                                  semanticsLabel: 'conteggio caratteri',
+                                );
+                              },
                             ),
-                              border: OutlineInputBorder(),
-                            ),
-                            maxLength: 512,
-                            maxLines: 5,
-                            controller: txtArgomento,
-                            buildCounter: (BuildContext context,
-                                {
-                                  required int currentLength,
-                                  required int? maxLength,
-                                  required bool isFocused,
-                                }) {
-                              return Text(
-                                '$currentLength di $maxLength caratteri',
-                                semanticsLabel: 'conteggio caratteri',
-                              );
-                            },
                           ),
                         )
                       ],
@@ -253,15 +258,19 @@ class _LessonDetailsState extends State<LessonDetails> {
                             textStyle: MaterialStateProperty.all<TextStyle>(
                                 const TextStyle(fontWeight: FontWeight.bold)),
                             side: MaterialStateProperty.all<BorderSide>(
-                                const BorderSide(color: Colors.blue, width: 2))),
+                                const BorderSide(color: Colors.blue, width: 2)
+                            )
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text('Prenota')
                           ],
                         ),
-                      )),
-                ])
+                      )
+                    ),
+                ]
+              )
             ],
           ),
         ),
@@ -307,7 +316,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                     onPressed: () {
                       // confermato, annullo la lezione
-                      // deleteLesson(widget.lesson, studentID);
+                      deleteLesson(widget.lesson, studentID);
                       widget.refreshUICallback();
                       Navigator.of(context).pop(); // close dialog
                       Navigator.of(context).pop(); // close lesson_details
@@ -377,7 +386,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                       onPressed: () {
                         // confermato, annullo la lezione
-                        // completeLesson(widget.lesson, studentID);
+                        completeLesson(widget.lesson, studentID);
                         widget.refreshUICallback();
                         Navigator.of(context).pop(); // close dialog
                         Navigator.of(context).pop(); // close lesson_details
@@ -431,9 +440,9 @@ class _LessonDetailsState extends State<LessonDetails> {
                         },
                         style: ButtonStyle(
                             foregroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                                MaterialStateProperty.all<Color>(Colors.white),
                             backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
+                                MaterialStateProperty.all<Color>(Colors.blue),
                             overlayColor: MaterialStateProperty.all<Color>(
                                 Colors.white.withOpacity(0.20)),
                             textStyle: MaterialStateProperty.all<TextStyle>(

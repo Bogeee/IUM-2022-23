@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:animations/animations.dart';
 
+// constants
+import 'package:proj/constants.dart';
+
 // models
 import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
 
 // Views
 import 'package:proj/views/main/home/home.dart';
+import 'package:proj/views/main/history/history.dart';
+import 'package:proj/views/main/profile/profile.dart';
 import 'package:proj/views/main/search_lesson/search_lesson.dart';
+
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -29,12 +35,31 @@ class _MainScreenState extends State<MainScreen> {
     Color menuBackgroundColor = isDark ? Colors.white54 : const Color(0xfff0f0f0);
     Color appBarForegroundColor = isDark ? Colors.black : Colors.white; 
 
+    final Map<String, int> _pageIndexes = {
+      'Home' : 0,
+      'Prenota' : 1,
+      'Storico' : 2,
+      'Profilo' : 3
+    };
+
+    void _setBookPage() {
+      setState(() {
+        _currentIndex = _pageIndexes['Prenota']!;
+      });
+    }
+
+    void _changePage(String mainScreenRoute) {
+      setState(() {
+        _currentIndex = _pageIndexes[mainScreenRoute]!;
+      });
+    }
+
     final List<Widget> _children = [
-      const UserHomePage(),
+      UserHomePage(changePageCallback: _setBookPage),
       const SearchLessonPage(),
-      const Center(child: Text('Storico')),
-      const Center(child: Text('Profilo')),
-      // const Center(child: Text('Prenota')),
+      UserHistoryPage(changePageCallback: _setBookPage),
+      const UserProfilePage()
+      // SearchLessonPage(),
       // HistoryPage(),
       // ProfilePage()
     ];
@@ -48,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
 
     return WillPopScope(
       onWillPop: () async {
-        // prevent defaul behavior on Android back button pressed
+        // prevent default behavior on Android back button pressed
         return false;
       },
       child: Scaffold(
@@ -87,7 +112,7 @@ class _MainScreenState extends State<MainScreen> {
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/house-solid.svg",
                 color: _currentIndex == 0? accent : unselectedItemColor,
                 height: 16,
               ),
@@ -96,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/magnifying-glass-solid.svg",
                 color: _currentIndex == 1 ? accent : unselectedItemColor,
                 height: 16,
               ),
@@ -105,7 +130,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/box-archive-solid.svg",
                 color: _currentIndex == 2 ? accent : unselectedItemColor,
                 height: 16,
               ),
@@ -114,7 +139,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                "assets/icons/at-solid.svg",
+                "assets/icons/circle-user-solid.svg",
                 color: _currentIndex == 3 ? accent : unselectedItemColor,
                 height: 16,
               ),

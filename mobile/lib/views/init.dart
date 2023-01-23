@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:proj/models/login_info.dart';
-import 'package:proj/models/notifiers.dart';
 
 // Models
-import 'package:proj/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:proj/models/notifiers.dart';
+import 'package:proj/models/login_info.dart';
+import 'package:proj/models/user.dart';
 
 // Views
 import 'package:proj/views/login/login.dart';
@@ -102,11 +102,12 @@ class _InitViewState extends State<InitView> {
           }
         } else {
           return Scaffold(
-              body: Center(
-            child: CircularProgressIndicator(
-              color: Provider.of<ThemeNotifier>(context).accentColor,
-            ),
-          ));
+            body: Center(
+              child: CircularProgressIndicator(
+                color: Provider.of<ThemeNotifier>(context).accentColor,
+              ),
+            )
+          );
         }
       }
     );

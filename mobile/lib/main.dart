@@ -22,7 +22,7 @@ void main() async
   // To access multiple providers we must nest them
   runApp(
     ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(false), 
+      create: (context) => ThemeNotifier(), 
       child: ChangeNotifierProvider(
         create: (context) => LoggedInNotifier(),
         // The ThemeNotifiers and LoggedInNotifier can be accessed
@@ -37,7 +37,7 @@ void main() async
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({ super.key, });
 
   // This widget is the root of your application.
   @override
