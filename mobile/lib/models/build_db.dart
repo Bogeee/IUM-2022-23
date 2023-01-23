@@ -194,8 +194,8 @@ Future<void> createDB() async {
         "('Filippo', 'Bogetti', 'filippo.bogetti@edu.unito.it', '\$2y\$10\$YGXS0..6HcJOUjSZSBZbWuDyTe4G9K5eyQgAhk3YO5YzJpyR0nES6', 0), "
         "('Stefano', 'Fontana', 'stefano.fontana266@edu.unito.it', '\$2y\$10\$YGXS0..6HcJOUjSZSBZbWuDyTe4G9K5eyQgAhk3YO5YzJpyR0nES6', 0), "
         "('Account', 'Non Usato', 'useless@polito.it', '\$2y\$10\$6IK1zP69iXD0eWqulA7JMOQgw9iopFDzgD6NbGZXmIwDAiMcwE4CK', 0);");
-  });
 
+    // Insert Prenotazioni
     await db.execute(
       "INSERT INTO Prenotazioni(Corso, Giorno, Studente, OraI, OraF, Stato, Argomento) VALUES "
       "(1, 'Mercoledì', 2, 9, 10, 0, NULL),"
@@ -203,4 +203,6 @@ Future<void> createDB() async {
       "(1, 'Giovedì', 2, 10, 11, 0, NULL),"
       "(1, 'Mercoledì', 2, 11, 12, 0, NULL);"
     );
+
+  });
 }
