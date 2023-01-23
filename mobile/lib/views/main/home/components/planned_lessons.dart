@@ -90,8 +90,8 @@ class _PlannedLessonsState extends State<PlannedLessons> {
               padding: const EdgeInsets.only(
                   top: 0.5 * defaultPadding, bottom: 0.5 * defaultPadding),
               child: Center(
-                  child: SizedBox(
-                width: 118,
+                child: SizedBox(
+                width: 140,
                 child: OutlinedButton(
                   onPressed: () {
                     widget.changePageCallback();
@@ -110,13 +110,16 @@ class _PlannedLessonsState extends State<PlannedLessons> {
                           : MaterialStateProperty.all<Color>(Colors.black)),
                   child: Row(
                     children: [
+                      const SizedBox(width: 0.8 * defaultPadding,),
                       SvgPicture.asset('assets/icons/plus-solid.svg',
                           width: 14),
-                      const SizedBox(
-                        width: 0.5 * defaultPadding,
-                      ),
-                      const Text('Ripetizione',
-                          style: TextStyle(fontWeight: FontWeight.bold))
+                      const Expanded(
+                        child: Text(
+                          'Ripetizione',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )
+                      )
                     ],
                   ),
                 ),

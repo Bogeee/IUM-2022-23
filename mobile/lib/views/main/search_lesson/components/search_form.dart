@@ -187,7 +187,7 @@ class _SearchFormState extends State<SearchForm> {
                 const Expanded(child: Text("Docente")),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: widget.accent.withOpacity(0.30),
+                    backgroundColor: widget.accent.withOpacity(0.25),
                   ),
                   child: Text(
                     _selectedProfessor != null
@@ -284,7 +284,7 @@ class _SearchFormState extends State<SearchForm> {
                 const Expanded(child: Text("Giorno")),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    backgroundColor: widget.accent.withOpacity(0.30),
+                    backgroundColor: widget.accent.withOpacity(0.25),
                   ),
                   child: Text(
                     _selectedDay,
@@ -379,7 +379,7 @@ class _SearchFormState extends State<SearchForm> {
                   children: [
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: widget.accent.withOpacity(0.30),
+                        backgroundColor: widget.accent.withOpacity(0.25),
                       ),
                       onPressed: () async {
                         TimeOfDay? time = await showTimePicker(
@@ -415,7 +415,7 @@ class _SearchFormState extends State<SearchForm> {
                     ),
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: widget.accent.withOpacity(0.30),
+                        backgroundColor: widget.accent.withOpacity(0.25),
                       ),
                       onPressed: () async {
                         TimeOfDay? time = await showTimePicker(

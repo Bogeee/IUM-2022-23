@@ -104,7 +104,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                 ),
               if(widget.lesson.stato == 4)
                 const LessonInfoRow(
-                    icon_path: 'assets/icons/wand-magic-sparkles-solid.svg', // FIXME: che icona mettiamo ???
+                    icon_path: 'assets/icons/wand-magic-sparkles-solid.svg',
                     item_title: 'Stato',
                     item: "Disponibile"
                 ),
@@ -133,46 +133,55 @@ class _LessonDetailsState extends State<LessonDetails> {
                 item: widget.lesson.corso.docente.email
               ),
               const LessonInfoRowSeparator(),
-              const SizedBox(height: 2*defaultPadding,),
+              
+              widget.lesson.stato != 4
+                ? const SizedBox(height: 2*defaultPadding,)
+                : const SizedBox(height: defaultPadding),
               
               if(widget.lesson.stato == 4)
                 Row(
-                  children: [
-                    Column(
-                      children: [
-                        const Text("Inserisci l'argomento (opzionale)"),
-                        SizedBox(
-                          width: 300,
-                          height: 250,
-                          child: Center(
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey, width: 0.0),
-                                ),
-                                border: OutlineInputBorder(),
-                              ),
-                              maxLength: 512,
-                              maxLines: 5,
-                              controller: txtArgomento,
-                              buildCounter: (
-                                BuildContext context, {
-                                required int currentLength,
-                                required int? maxLength,
-                                required bool isFocused,
-                              }) {
-                                return Text(
-                                  '$currentLength di $maxLength caratteri',
-                                  semanticsLabel: 'conteggio caratteri',
-                                );
-                              },
-                            ),
-                          ),
-                        )
-                      ],
+                  children: const [
+                    Text(
+                      "Inserisci l'argomento (opzionale)",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15
+                      ),
                     )
                   ],
+                ),
+              if(widget.lesson.stato == 4)
+                const SizedBox(height: 0.5 * defaultPadding,),
+              if (widget.lesson.stato == 4)
+                TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: Colors.grey, width: 0.0
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          color: accent, width: 2.0
+                      ),
+                    ),
+                    border: const OutlineInputBorder(),
+                  ),
+                  maxLength: 512,
+                  maxLines: 4,
+                  controller: txtArgomento,
+                  buildCounter: (
+                    BuildContext context, {
+                    required int currentLength,
+                    required int? maxLength,
+                    required bool isFocused,
+                  }) {
+                    return Text(
+                      '$currentLength di $maxLength caratteri',
+                      semanticsLabel: 'conteggio caratteri',
+                    );
+                  },
                 ),
 
               if(widget.lesson.stato == 0)

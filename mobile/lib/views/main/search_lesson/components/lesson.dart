@@ -36,18 +36,17 @@ class Lesson extends StatelessWidget {
           offset: const Offset(2,2),
           child: Container(
           decoration: BoxDecoration(
-              color: const Color(0xfff6f6f6), // FIXME: mettere colore giusto
+              color: const Color(0xfff6f6f6),
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(defaultPadding / 2)),
           child: Stack(
             children: [
               Column(
                 children: [
-                  // FIXME: settare icone giuste
                   LessonDetailRow(
                     detail: lesson.corso.materia.nome,
                     header: true,
-                    iconPath: "",
+                    iconPath: 'assets/icons/graduation-cap-solid.svg',
                   ),
                   Row(
                     children: [
@@ -55,15 +54,16 @@ class Lesson extends StatelessWidget {
                         children: [
                           LessonDetailRow(
                             detail: lesson.giorno,
-                            iconPath: "",
+                            iconPath: 'assets/icons/calendar-days-solid.svg',
                           ),
                         ],
                       ),
+                      const SizedBox(width: 1.5 * defaultPadding,),
                       Column(
                         children: [
                           LessonDetailRow(
                             detail: "${lesson.oraI}:00 - ${lesson.oraF}:00",
-                            iconPath: "",
+                            iconPath: 'assets/icons/clock-regular.svg',
                           ),
                         ],
                       ),
@@ -72,11 +72,10 @@ class Lesson extends StatelessWidget {
                   LessonDetailRow(
                     detail:
                         "${lesson.corso.docente.nome} ${lesson.corso.docente.cognome}",
-                    iconPath: "",
+                    iconPath: 'assets/icons/user-tie-solid.svg',
                   ),
                 ],
               ),
-              // FIXME: mettere icona giusta e posizionarla!!!
               Positioned(
                 top: 45,
                 right: 20,
