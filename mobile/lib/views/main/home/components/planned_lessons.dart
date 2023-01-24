@@ -174,10 +174,31 @@ class _PlannedLessonsState extends State<PlannedLessons> {
               decoration: const BoxDecoration(color: Colors.grey),
             ),
             Expanded(
-              child: Text(
-              '${widget.lessonList[index].oraI}.00 - ${widget.lessonList[index].oraF}.00',
-              textAlign: TextAlign.center,
-            )),
+              child: widget.lessonList[index].giorno == 'Mercoledì'
+                ? Text(
+                    '${widget.lessonList[index].oraI}.00 - ${widget.lessonList[index].oraF}.00',
+                    textAlign: TextAlign.center,
+                  )
+                : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.lessonList[index].giorno, 
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 12
+                        ),
+                      ),
+                      Text(
+                        '${widget.lessonList[index].oraI}.00 - ${widget.lessonList[index].oraF}.00',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 12
+                        ),
+                      ),
+                    ],
+                  )
+            ),
             Container(
               width: 1,
               height: 25,

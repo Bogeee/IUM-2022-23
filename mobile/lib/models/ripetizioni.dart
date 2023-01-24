@@ -228,7 +228,8 @@ Future<List<Ripetizione>> getOldLessons(int userId) async {
       "ON Prenotazioni.Corso = Corsi.ID "
       "INNER JOIN Docenti "
       "ON Corsi.Docente = Docenti.ID "
-      "WHERE Prenotazioni.Giorno IN ('Lunedì', 'Martedì') "
+      "WHERE (Prenotazioni.Giorno IN ('Lunedì', 'Martedì') "
+      " OR Prenotazioni.Stato == 1) "
       "AND Prenotazioni.Studente = ?",
       [userId]);
 
