@@ -2,6 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:proj/models/notifiers.dart';
+import 'package:proj/views/main/admin_unbook/admin_unbook.dart';
 import 'package:proj/views/main/profile/profile.dart';
 import 'package:proj/views/main/search_lesson/admin_search_lesson.dart';
 import 'package:proj/views/main/search_lesson/search_lesson.dart';
@@ -29,13 +30,13 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
 
     final List<Widget> _children = [
       const AdminSearchLessonPage(),
-      const Center(child: Text('Disdici'),),
+      const AdminUnbookPage(),
       const UserProfilePage()
     ];
 
     final List<Text> _appBarTitles = [
       const Text('Catalogo ripetizioni'),
-      const Text('Disdici'),
+      const Text('Disdici ripetizioni'),
       const Text('Profilo')
     ];
 

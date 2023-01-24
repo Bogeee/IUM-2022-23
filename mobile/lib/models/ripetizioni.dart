@@ -1,3 +1,4 @@
+import 'package:proj/models/user.dart';
 import 'package:sqflite/sqflite.dart';
 
 // models
@@ -325,7 +326,7 @@ Future<List<Ripetizione>> searchFreeLessons(int userId, String subject,
       "WHERE NOT EXISTS ( "
       "SELECT C1.ID, P.Giorno, P.OraI, P.OraF "
       "FROM Prenotazioni AS P INNER JOIN Corsi AS C1 ON C1.ID = P.Corso "
-      "WHERE C1.ID = R.Corso AND P.Giorno = R.Giorno AND P.OraI < R.OraF AND P.OraF > R.OraI) "
+      "WHERE C1.ID = R.Corso AND P.Giorno = R.Giorno AND P.OraI < R.OraF AND P.OraF > R.OraI AND P.Stato != 2) "
       ") AS Ris INNER JOIN Corsi AS C "
       "ON C.ID = Ris.Corso "
       "INNER JOIN Docenti AS D "
@@ -386,19 +387,101 @@ Future<String> insertLesson(Ripetizione lesson, String argument) async {
     where: "Stato <> 2 AND Giorno = ? AND OraI < ? AND OraF > ? AND Studente = ?",
     whereArgs: [lesson.giorno, lesson.oraF, lesson.oraI, lesson.studente]);
 
-  if (result.isEmpty) {
-    await db.execute(
-      "INSERT INTO Prenotazioni(Corso, Giorno, Studente, OraI, OraF, Argomento) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        lesson.corso.id,
-        lesson.giorno,
-        lesson.studente,
-        lesson.oraI,
-        lesson.oraF,
-        argument
-      ]);
-    return "OK";
-  } else {
-    return "KO";
+  try{
+    if (result.isEmpty) {
+      await db.execute(
+          "INSERT INTO Prenotazioni(Corso, Giorno, Studente, OraI, OraF, Argomento) VALUES (?, ?, ?, ?, ?, ?)",
+          [
+            lesson.corso.id,
+            lesson.giorno,
+            lesson.studente,
+            lesson.oraI,
+            lesson.oraF,
+            argument
+          ]);
+      return "OK";
+    } else {
+      return "KO";
+    }
+  }catch(e){
+    return "ALR";
   }
+}
+
+Future<List<Ripetizione>> getActiveLessons(String studEmail, String subject, Docente? prof,
+    String day, int init, int end) async{
+  final db = await openDatabase('ripetizioni.db');
+
+  List<Ripetizione> activeLessons = [];
+  int studentID = 0;
+  int courseID = 0;
+
+  bool student = studEmail != "";
+  if(student) {
+    studentID = await getUserIDFromEmail(studEmail);
+  }
+
+  bool professor = prof != null;
+  if(professor) {
+    courseID = await getCourseIDFromProfessorSubject(prof, subject);
+  }
+
+  final result;
+
+  if(student && professor){
+    result = await db.rawQuery(
+      'SELECT P.*, C.*, D.* FROM Prenotazioni AS P '
+        'INNER JOIN Corsi AS C ON P.Corso = C.ID '
+        'INNER JOIN Docenti AS D ON C.Docente = D.ID '
+        'WHERE P.Studente = ? AND P.Stato = 0 AND P.Corso = ? '
+            'AND P.Giorno = ? AND P.OraI >= ? AND P.OraI < ? '
+            'AND P.OraF <= ?',
+        [studentID, courseID, day, init, end, end]
+    );
+  } else if (student && !professor){
+      result = await db.rawQuery(
+        'SELECT P.*, C.*, D.* FROM Prenotazioni AS P '
+          'INNER JOIN Corsi AS C ON P.Corso = C.ID '
+          'INNER JOIN Docenti AS D ON C.Docente = D.ID '
+          'WHERE P.Studente = ? AND P.Stato = 0 AND C.Materia = ? '
+              'AND P.Giorno = ? AND P.OraI >= ? AND P.OraI < ? '
+              'AND P.OraF <= ?',
+          [studentID, subject, day, init, end, end]
+      );
+  } else {
+    result = await db.rawQuery(
+      'SELECT P.*, C.*, D.* FROM Prenotazioni AS P '
+        'INNER JOIN Corsi AS C ON P.Corso = C.ID '
+        'INNER JOIN Docenti AS D ON C.Docente = D.ID '
+        'WHERE P.Stato = 0 AND P.Corso = ? AND P.Giorno = ? '
+            'AND P.OraI >= ? AND P.OraI < ? AND P.OraF >= ?',
+        [courseID, day, init, end, end]
+    );
+  }
+
+  if (result.isEmpty) {
+    return activeLessons;
+  }
+
+  Docente d;
+  Materia m;
+  Corso c;
+  Ripetizione r;
+
+  result.forEach((row) {
+    d = Docente.fromData(
+        row['Docente'] as int,
+        row['Nome'].toString(),
+        row['Cognome'].toString(),
+        row['Email'].toString(),
+        row['valDocente'] == 'TRUE' ? true : false);
+    m = Materia.fromData(row['Materia'] as String, true);
+    c = Corso.fromData(
+        row['Corso'] as int, d, m, row['valCorso'] == 'TRUE' ? true : false);
+    r = Ripetizione.fromData(c, row['Giorno'].toString(), row['Studente'] as int,
+        row['OraI'] as int, row['OraF'] as int, 0, row['Argomento'].toString());
+    activeLessons.add(r);
+  });
+
+  return activeLessons;
 }

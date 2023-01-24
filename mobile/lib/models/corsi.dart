@@ -51,3 +51,22 @@ Future<List<Materia>> getSubjectForStudent(int studentId) async {
 
   return subjects;
 }
+
+Future<int> getCourseIDFromProfessorSubject(Docente prof, String materia) async {
+  final db = await openDatabase('ripetizioni.db');
+  int id = -1;
+
+  final result = await db.query('Corsi',
+    columns: ['ID'],
+    where: 'Docente = ? AND Materia = ? AND valCorso = "TRUE"',
+    whereArgs: [prof.id, materia] 
+  );
+
+  if(result.isEmpty){
+    return id;
+  }
+
+  id = result[0]['ID'] as int;
+
+  return id;
+}

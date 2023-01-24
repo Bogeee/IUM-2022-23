@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 const String fileName = 'saved_user.json';
 const String firstOpeningFileName = 'first_opening.text';
@@ -117,4 +118,39 @@ class User {
       file.writeAsString('true');
     }
   }
+}
+
+Future<List<String>> getStudentsFromDB() async {
+  final db = await openDatabase('ripetizioni.db');
+
+  final result = await db.query('Users',
+      columns: ['Email'],
+      where: "isAdmin = 0"
+  );
+
+  List<String> studenti = [];
+  result.forEach((stud) {
+    studenti.add(stud['Email'] as String);
+  });
+
+  return studenti;
+}
+
+Future<int> getUserIDFromEmail(String email) async{
+  final db = await openDatabase('ripetizioni.db');
+  int id = -1;
+
+  final result = await db.query('Users',
+    columns: ['ID'],
+    where: 'Email = ?',
+    whereArgs: [email]
+  );
+
+  if(result.isEmpty) {
+    return id;
+  }
+  
+  id = result[0]['ID'] as int;
+
+  return id;
 }

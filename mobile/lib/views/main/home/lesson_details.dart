@@ -42,11 +42,13 @@ class _LessonDetailsState extends State<LessonDetails> {
       appBar: AppBar(
         backgroundColor: accent,
         foregroundColor: appBarForegroundColor,
-        title: widget.lesson.stato == 0 
+        title: widget.lesson.stato == 0 && !userInfo.isAdmin
             ? const Text('Modifica ripetizione') 
-            : widget.lesson.stato == 4 && !userInfo.isAdmin
-                ? const Text('Prenota ripetizione')
-                : const Text('Ripetizione')
+            : widget.lesson.stato == 0 && userInfo.isAdmin
+                ? const Text('Disdici ripetizione')
+                : widget.lesson.stato == 4 && !userInfo.isAdmin
+                    ? const Text('Prenota ripetizione')
+                    : const Text('Ripetizione')
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -217,16 +219,18 @@ class _LessonDetailsState extends State<LessonDetails> {
                         ),
                       )
                     ),
-                    if(widget.lesson.giorno == 'Mercoledì'
+                    if((widget.lesson.giorno == 'Mercoledì'
                        || widget.lesson.giorno == 'Martedì'
                        || widget.lesson.giorno == 'Lunedì')
+                       && !userInfo.isAdmin)
                       const Expanded(
                         flex: 1,
                         child: SizedBox()
                       ),
-                    if(widget.lesson.giorno == 'Mercoledì'
+                    if((widget.lesson.giorno == 'Mercoledì'
                        || widget.lesson.giorno == 'Martedì'
                        || widget.lesson.giorno == 'Lunedì')
+                       && !userInfo.isAdmin)
                       Expanded(
                         flex: 2,
                         child: OutlinedButton(
@@ -263,6 +267,8 @@ class _LessonDetailsState extends State<LessonDetails> {
                             Navigator.of(context).pop(); // close lesson_details
                           } else if (result == "KO") {
                             showError(context, "Hai già un'altra lezione in questo giorno e a questo orario");
+                          } else if (result == "ALR"){
+                            showError(context, "Hai già disdetto questa lezione. Devi cambiare orario o professore.");
                           }
                         },
                         style: ButtonStyle(
@@ -331,7 +337,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                     onPressed: () {
                       // confermato, annullo la lezione
-                      deleteLesson(widget.lesson, studentID);
+                      deleteLesson(widget.lesson, widget.lesson.studente);
                       widget.refreshUICallback();
                       Navigator.of(context).pop(); // close dialog
                       Navigator.of(context).pop(); // close lesson_details
@@ -401,7 +407,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                   child: OutlinedButton(
                       onPressed: () {
                         // confermato, annullo la lezione
-                        completeLesson(widget.lesson, studentID);
+                        completeLesson(widget.lesson, widget.lesson.studente);
                         widget.refreshUICallback();
                         Navigator.of(context).pop(); // close dialog
                         Navigator.of(context).pop(); // close lesson_details
