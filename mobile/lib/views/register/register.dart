@@ -39,8 +39,14 @@ class _RegisterViewState extends State<RegisterView> {
       }
     });
 
-    return Scaffold(
-      body: WebViewWidget(controller: webCtl)
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacementNamed(context, '/login');
+        return false;
+      },
+      child: Scaffold(
+        body: WebViewWidget(controller: webCtl)
+      ), 
     );
   }
 }
