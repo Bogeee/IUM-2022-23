@@ -1,46 +1,96 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
-    <link rel="stylesheet" href="register.css">
-    <script src="register.js"></script>
-</head>
-<body>
-    <div id="container">
+    <!DOCTYPE html>
+    <html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+        <link rel="stylesheet" href="register.css">
+        <script src="register.js"></script>
+    </head>
+    <body>
         <h1>Ripetizioni</h1>
         <h2>Registrati</h2>
         <div class="bg_shade" id="circle_1"></div>
         <div class="bg_shade" id="circle_2"></div>
         <div class="bg_shade" id="circle_3"></div>
         <form id="register-form" novalidate>
-            <input type="text" name="first-name" placeholder="Nome" required>
-            <input type="text" name="last-name" placeholder="Cognome" required>
-            <input type="number" name="age" placeholder="Et&agrave;" required>
-            <div id="radio-container">
-                <div class="radio-group">
-                    <input type="radio" id="male" name="gender" value="M" required>
-                    <label for="male">Maschio</label>
+            <fieldset>
+                <legend>Dati personali</legend>
+                <div class="input-labels">
+                    <label for="first-name">Nome<span class="mandatory">*</span></label>
                 </div>
-                <div class="radio-group">
-                    <input type="radio" id="female" name="gender" value="F" required>
-                    <label for="female">Femmina</label>
+                <input type="text" autocomplete="given-name" id="first-name" name="first-name" placeholder="Nome" aria-required="true" required>
+                <div class="input-labels">
+                    <label for="last-name">Cognome<span class="mandatory">*</span></label>
                 </div>
-                <div class="radio-group">
-                    <input type="radio" id="other" name="gender" value="O" required>
-                    <label for="other">Other</label>
+                <input type="text" autocomplete="family-name" id="last-name" name="last-name" placeholder="Cognome" aria-required="true" required>
+                <div class="input-labels">
+                    <label for="age">Età<span class="mandatory">*</span></label><br>
                 </div>
-            </div>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="email" name="rpt-email" placeholder="Conferma email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="rpt-password" placeholder="Conferma password" required>
-            <div id="errMsg" class="error-message"></div>
-            <input type="submit" value="Registrati">
+                <input type="number" id="age" name="age" min="14" max="90" placeholder="Età" aria-required="true" required>
+                <fieldset id="radio-container">
+                    <legend>Genere<span class="mandatory">*</span></legend>
+                    <div class="radio-group">
+                        <input type="radio" id="male" name="gender" value="M" aria-required="true" required>
+                        <label for="male">Maschio</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="female" name="gender" value="F" aria-required="true" required>
+                        <label for="female">Femmina</label>
+                    </div>
+                    <div class="radio-group">
+                        <input type="radio" id="other" name="gender" value="O" aria-required="true" required>
+                        <label for="other">Other</label>
+                    </div>
+                </fieldset>
+            </fieldset>
+            <fieldset>
+                <legend>Dati domicilio</legend>
+                <div class="input-labels">
+                    <label for="address">Indirizzo</label>
+                </div>
+                <input type="text" id="address" name="address" placeholder="Indirizzo">
+                <div class="input-labels">
+                    <label for="address-number">Numero civico</label>
+                </div>
+                <input type="text" id="address-number" name="address-number" placeholder="Numero civico">
+                <div class="input-labels">
+                    <label for="city">Città</label>
+                </div>
+                <input type="text" id="city" name="city" placeholder="Città">
+                <div class="input-labels">
+                    <label for="cap">CAP</label>
+                </div>
+                <input type="text" id="cap" maxlength="5" name="cap" placeholder="CAP">
+                <div class="input-labels">
+                    <label for="country">Paese</label>
+                </div>
+                <input type="text" id="country" name="country" placeholder="Paese">
+            </fieldset>
+            <fieldset>
+                <legend>Dati di accesso</legend>
+                <div class="input-labels">
+                    <label for="email">Email<span class="mandatory">*</span></label>
+                </div>
+                <input type="email" autocomplete="email" id="email" name="email" placeholder="Email" aria-required="true" required>
+                <div class="input-labels">
+                    <label for="rpt-email">Conferma email<span class="mandatory">*</span></label>
+                </div>
+                <input type="email" autocomplete="email" id="rpt-email" name="rpt-email" placeholder="Conferma email" aria-required="true" required>
+                <div class="input-labels">
+                    <label for="password">Password<span class="mandatory">*</span></label>
+                </div>
+                <input type="password" autocomplete="new-password" id="password" name="password" placeholder="Password" aria-required="true" required>
+                <div class="input-labels">
+                    <label for="rpt-password">Conferma password<span class="mandatory">*</span></label>
+                </div>
+                <input type="password" autocomplete="new-password" id="rpt-password" name="rpt-password" placeholder="Conferma password" aria-required="true" required>
+            </fieldset>
+            <p id="errMsg" class="error-message"></p>
+            <br>
+            <input type="submit" id="btnRegister" value="Registrati">
         </form>
-    </div>
-</body>
-</html>
+    </body>
+    </html>

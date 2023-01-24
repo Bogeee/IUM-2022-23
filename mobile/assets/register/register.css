@@ -1,10 +1,7 @@
 body {
     text-align: center;
     font-family: 'Poppins', serif;
-    font-size: 16px;
-}
-
-#container {
+    font-size: 14px;
     margin: 0 auto;
     width: 80%;
     height: 100%;
@@ -12,7 +9,7 @@ body {
     padding: 1.5em;
 }
 
-#container h2 {
+h2 {
     margin-top: 1.5em;
 }
 
@@ -74,31 +71,63 @@ body {
     font-family: 'Poppins', serif;
 }
 
-#radio-container {
-    width: 60%;
-    height: 100%;
-    padding: 1em;
-    margin: 0 auto;
-}
-
 .radio-group {
     text-align: left;
 }
 
 #errMsg {
-    margin: 5px auto 22px auto;
-    width: 80%;
+    display: none;
     font-size: 13px;
-    background-color: #f1f1f1;
-    border-radius: 5px;
 }
 
 .error-message {
     color: #f00;
-    border: 2px solid red;
+    text-align: left;
+    padding: 0;
+    margin: -20px 0 5px 17%;
+    width: 60%;
 }
 
 .success-message {
+    text-align: center;
     color: #0f0;
     border: 2px solid #0f0;
+    margin: 5px auto 22px auto;
+    width: 80%;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+#radio-container {
+    text-align: left;
+    border: none;
+    width: 55%;
+    height: 100%;
+    padding: 1em;
+    margin: 0 auto 5px auto;
+}
+
+#radio-container > legend {
+    margin-left: -2em;
+}
+
+.input-labels {
+    text-align: left;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    left: 15%;
+}
+
+.mandatory {
+    color: #f00;
+    padding-left: 0.1em;
+}
+
+fieldset {
+    margin: 1em auto;
+}
+
+legend {
+    text-align: left;
 }

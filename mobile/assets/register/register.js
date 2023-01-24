@@ -1,8 +1,10 @@
 window.onload = function() {
-    document.getElementById("errMsg").style.display = 'none';
+    // document.getElementById("errMsg").style.display = 'none';
     document.getElementById("register-form").onsubmit = function(event) {
-        document.getElementById("errMsg").style.display = 'none';
         event.preventDefault();
+        var errDiv = document.getElementById("errMsg");
+        errDiv.style.display = 'none';
+        document.getElementById("btnRegister").insertAdjacentElement("beforebegin", errDiv);
         formDataChannel.postMessage(getFormData());
         return false;
     }
@@ -19,32 +21,25 @@ function getFormData() {
 
         if(element.value == "") {
             if(element.name == "first-name") {
-                showError("Devi inserire il nome.");
-                element.focus();
+                showError(element, "Devi inserire il nome.");
                 return false;
             } else if(element.name == "last-name") {
-                showError("Devi inserire il cognome.");
-                element.focus();
+                showError(element, "Devi inserire il cognome.");
                 return false;
             } else if(element.name == "age") {
-                showError("Devi inserire l'età.");
-                element.focus();
+                showError(element, "Devi inserire l'età.");
                 return false;
             } else if(element.name == "email") {
-                showError("Devi inserire l'email.");
-                element.focus();
+                showError(element, "Devi inserire l'email.");
                 return false;
             } else if(element.name == "rpt-email") {
-                showError("Devi reinserire l'email.");
-                element.focus();
+                showError(element, "Devi reinserire l'email.");
                 return false;
             } else if(element.name == "password") {
-                showError("Devi inserire la password.");
-                element.focus();
+                showError(element, "Devi inserire la password.");
                 return false;
             } else if(element.name == "rpt-password") {
-                showError("Devi reinserire la password.");
-                element.focus();
+                showError(element, "Devi reinserire la password.");
                 return false;
             }
         }
@@ -68,7 +63,7 @@ function getFormData() {
             
             if(radioButtons == 3) {
                 if (!radioOk) {
-                    showError("Devi selezionare un sesso.");
+                    showError(element, "Devi selezionare un sesso.");
                     return false;
                 } else {
                     data[element.name] = document.getElementById(radioChosen).value;
@@ -77,11 +72,17 @@ function getFormData() {
             }
         }
 
+        if(element.type == "number") {
+            if(element.value < 14 || element.value > 90) {
+                showError(element, "L'età ammessa è da 14 a 90.");
+                return false;
+            }
+        }
+
         if(element.type == "email") {
             var regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             if(!regexEmail.test(element.value)) {
-                showError("Devi inserire un indirizzo email valido.");
-                element.focus();
+                showError(element, "Devi inserire un indirizzo email valido.");
                 return false;
             }
         } else if (element.type == "password") {
@@ -90,34 +91,76 @@ function getFormData() {
             );
 
             if(!regexPwd.test(element.value)) {
-                showError("Devi inserire una password con almeno 8 caratteri, almeno una maiuscola, almeno una minuscola, almeno un numero e almeno un carattere speciale (tra !@#$%^&*).");
-                element.focus();
+                showError(element, "Devi inserire una password con almeno 8 caratteri, almeno una maiuscola, almeno una minuscola, almeno un numero e almeno un carattere speciale (tra !@#$%^&*).");
                 return false;
             }
         }
         
         if (element.type != "submit" && element.type != "radio")
             data[element.name] = element.value;
+        
+        clearAriaErrorAttributes(element.name);
     }
 
     if(data["email"] != data["rpt-email"]) {
-        showError("Le due email non coincidono.");
+        setErrorMessage("Le due email non coincidono.");
+        setAriaErrorAttributes("email");
+        setAriaErrorAttributes("rpt-email");
         return false;
     }
 
+    clearAriaErrorAttributes("email");
+    clearAriaErrorAttributes("rpt-email");
+
     if(data["password"] != data["rpt-password"]) {
-        showError("Le due password non coincidono.");
+        setErrorMessage("Le due password non coincidono.");
+        setAriaErrorAttributes("password");
+        setAriaErrorAttributes("rpt-password");
         return false;
     }
+
+    clearAriaErrorAttributes("password");
+    clearAriaErrorAttributes("rpt-password");
 
     return JSON.stringify(data);
 }
 
-function showError(message) {
+function setAriaErrorAttributes(elementName) {
+    var errMsg = document.getElementById("errMsg");
+    if(elementName != "gender") {
+        document.getElementsByName(elementName).forEach((element) => {
+          element.setAttribute("aria-invalid", "true");
+          element.setAttribute("aria-describedby", "errMsg");
+          element.insertAdjacentElement("afterend", errMsg);
+        });
+    } else {
+        document.getElementsByName(elementName).forEach((element) => {
+          element.setAttribute("aria-invalid", "true");
+          element.setAttribute("aria-describedby", "errMsg");
+        });
+
+        document.getElementById("radio-container").insertAdjacentElement("afterend", errMsg);
+    }
+}
+
+function clearAriaErrorAttributes(elementName) {
+    document.getElementsByName(elementName).forEach((element) => {
+      element.removeAttribute("aria-invalid");
+      element.removeAttribute("aria-describedby");
+    });
+}
+
+function showError(element, message) {
+    setErrorMessage(message);
+    setAriaErrorAttributes(element.name);
+    element.focus();
+}
+
+function setErrorMessage(message) {
     var errDiv = document.getElementById("errMsg");
     errDiv.innerHTML = message;
-    errDiv.style.display = 'block';
-    errDiv.className = 'error-message';
+    errDiv.style.display = "block";
+    errDiv.className = "error-message";
 }
 
 function showResult(message) {
