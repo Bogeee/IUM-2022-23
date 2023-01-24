@@ -421,7 +421,7 @@ Future<List<Ripetizione>> getActiveLessons(String studEmail, String subject, Doc
     studentID = await getUserIDFromEmail(studEmail);
   }
 
-  bool professor = prof != null;
+  bool professor = prof != null && prof.id != -1;
   if(professor) {
     courseID = await getCourseIDFromProfessorSubject(prof, subject);
   }
@@ -454,7 +454,7 @@ Future<List<Ripetizione>> getActiveLessons(String studEmail, String subject, Doc
         'INNER JOIN Corsi AS C ON P.Corso = C.ID '
         'INNER JOIN Docenti AS D ON C.Docente = D.ID '
         'WHERE P.Stato = 0 AND P.Corso = ? AND P.Giorno = ? '
-            'AND P.OraI >= ? AND P.OraI < ? AND P.OraF >= ?',
+            'AND P.OraI >= ? AND P.OraI < ? AND P.OraF <= ?',
         [courseID, day, init, end, end]
     );
   }
@@ -479,7 +479,7 @@ Future<List<Ripetizione>> getActiveLessons(String studEmail, String subject, Doc
     c = Corso.fromData(
         row['Corso'] as int, d, m, row['valCorso'] == 'TRUE' ? true : false);
     r = Ripetizione.fromData(c, row['Giorno'].toString(), row['Studente'] as int,
-        row['OraI'] as int, row['OraF'] as int, 0, row['Argomento'].toString());
+        row['OraI'] as int, row['OraF'] as int, 0, row['Argomento'] ?? "");
     activeLessons.add(r);
   });
 

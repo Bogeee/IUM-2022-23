@@ -621,7 +621,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                 showError( "Inserisci un'ora di fine minore o uguale a 13:00 oppure maggiore o uguale a 16:00");
               } else if (end.compareTo(const TimeOfDay(hour: 19, minute: 00)) > 0) {
                 showError("Inserisci un'ora di fine minore o uguale a 19:00");
-              } else if (_selectedProfessor == null && _selectedStudent == "") {
+              } else if ((_selectedProfessor == null || _selectedProfessor?.id == -1) && _selectedStudent == "") {
                 showError("Inserisci un professore o uno studente");
               } else {
                 List<Ripetizione> activeLessons = await getActiveLessons(
