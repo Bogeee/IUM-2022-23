@@ -5,9 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // constants
 import 'package:proj/constants.dart';
+import 'package:proj/models/notifiers.dart';
 
 // models
 import 'package:proj/models/ripetizioni.dart';
+import 'package:provider/provider.dart';
 
 class WeekLessons extends StatefulWidget {
   const WeekLessons({
@@ -79,6 +81,8 @@ class _WeekLessonsState extends State<WeekLessons> {
 
   @override
   Widget build(BuildContext context) {
+    Color lessContrastTextColor = Provider.of<ThemeNotifier>(context).lessContrastTextColor;
+    
     return Container(
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -129,10 +133,10 @@ class _WeekLessonsState extends State<WeekLessons> {
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
-                      const Text(
+                      Text(
                         'Questa settimana',
                         style: TextStyle(
-                          color: Color(0xFF4E4D4D),
+                          color: lessContrastTextColor,
                           fontSize: 14
                         ),
                       )
@@ -165,7 +169,9 @@ class _WeekLessonsState extends State<WeekLessons> {
                                 showVerticalIndicator: true,
                                 pinchZoom: false,
                                 verticalIndicatorStrokeWidth: 3.0,
-                                verticalIndicatorColor: Colors.black26,
+                                verticalIndicatorColor: widget.isDark
+                                  ? Colors.white24
+                                  : Colors.black26,
                                 footerHeight: 32,
                                 physics: const NeverScrollableScrollPhysics(),
                                 backgroundColor: Colors.transparent,

@@ -51,6 +51,8 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
     int studentID = Provider.of<LoggedInNotifier>(context).userId;
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color mainContainerColor = Provider.of<ThemeNotifier>(context).mainContainerColor;
+    Color lessContrastTextColor = Provider.of<ThemeNotifier>(context).lessContrastTextColor;
 
     return FutureBuilder(
       future: _historyFuture(studentID),
@@ -60,14 +62,14 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
             ? SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
-                  color: Colors.white,
+                  color: mainContainerColor,
                   child: Padding(
                     padding: const EdgeInsets.all(defaultPadding / 2),
                     child: Column(
                       children: [
                         Row(
-                          children: const [
-                            Expanded(
+                          children: [
+                            const Expanded(
                               child: Text(
                                 'Ripetizioni passate',
                                 style: TextStyle(
@@ -78,7 +80,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
                             Text(
                               '25 Gennaio 2023',
                               style: TextStyle(
-                                color: Color(0xFF4E4D4D),
+                                color: lessContrastTextColor,
                                 fontSize: 14,
                               ),
                               textAlign: TextAlign.right,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:proj/models/notifiers.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 // constants
@@ -17,6 +19,8 @@ class EmptyWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color lessContrastTextColor = Provider.of<ThemeNotifier>(context).lessContrastTextColor;
+
     return Container(
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -67,10 +71,10 @@ class EmptyWeek extends StatelessWidget {
                               fontSize: 16),
                         ),
                         const SizedBox(height: 0.75 * defaultPadding),
-                        const Text(
+                        Text(
                           'Buona settimana',
                           style:
-                              TextStyle(color: Color(0xff4E4D4D), fontSize: 13),
+                              TextStyle(color: lessContrastTextColor, fontSize: 13),
                         )
                       ],
                     )
@@ -83,7 +87,9 @@ class EmptyWeek extends StatelessWidget {
               right: 0,
               top: 1.5 * defaultPadding,
               child: SimpleShadow(
-                color: Colors.black38,
+                color: isDark
+                  ? Colors.white38
+                  : Colors.black38,
                 offset: const Offset(0, 3),
                 child: Image.asset(
                   'assets/images/home/free_week.png',

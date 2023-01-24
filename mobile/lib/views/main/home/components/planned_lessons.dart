@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 // constants
 import 'package:proj/constants.dart';
+import 'package:proj/models/notifiers.dart';
 
 // models
 import 'package:proj/models/ripetizioni.dart';
@@ -10,6 +11,7 @@ import 'package:proj/models/ripetizioni.dart';
 // views
 import 'package:proj/views/main/home/components/labels.dart';
 import 'package:proj/views/main/home/lesson_details.dart';
+import 'package:provider/provider.dart';
 
 class PlannedLessons extends StatefulWidget {
   const PlannedLessons({ 
@@ -34,6 +36,9 @@ class PlannedLessons extends StatefulWidget {
 class _PlannedLessonsState extends State<PlannedLessons> {
   @override
   Widget build(BuildContext context) {
+
+    Color lessContrastTextColor = Provider.of<ThemeNotifier>(context).lessContrastTextColor;
+
     return Container(
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -76,13 +81,13 @@ class _PlannedLessonsState extends State<PlannedLessons> {
             )
           ),
           Row(
-            children: const [
-              SizedBox(
+            children: [
+              const SizedBox(
                 width: defaultPadding,
               ),
               Text(
                 'Puoi aggiungere ripetizioni nella sezione "Prenota".',
-                style: TextStyle(color: Color(0xff4E4D4D), fontSize: 13),
+                style: TextStyle(color: lessContrastTextColor, fontSize: 13),
               )
             ],
           ),
@@ -111,8 +116,13 @@ class _PlannedLessonsState extends State<PlannedLessons> {
                   child: Row(
                     children: [
                       const SizedBox(width: 0.8 * defaultPadding,),
-                      SvgPicture.asset('assets/icons/plus-solid.svg',
-                          width: 14),
+                      SvgPicture.asset(
+                        'assets/icons/plus-solid.svg',
+                        width: 14,
+                        color: widget.isDark
+                          ? Colors.white
+                          : Colors.black,
+                      ),
                       const Expanded(
                         child: Text(
                           'Ripetizione',
@@ -130,11 +140,12 @@ class _PlannedLessonsState extends State<PlannedLessons> {
   }
 
   Widget lessonBuilder(BuildContext context, int index) {
+    Color mainContainerColor = Provider.of<ThemeNotifier>(context).mainContainerColor;
     return Container(
       height: 50,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(0.5 * defaultPadding),
-          color: Colors.white
+          color: mainContainerColor
       ),
       child: GestureDetector(
         onTap: (){

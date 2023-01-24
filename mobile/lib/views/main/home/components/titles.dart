@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proj/models/notifiers.dart';
+import 'package:provider/provider.dart';
 
 class GenericTitle extends StatelessWidget {
   const GenericTitle({
@@ -54,9 +56,11 @@ class TodayTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color lessContrastTextColor = Provider.of<ThemeNotifier>(context).lessContrastTextColor;
+    
     return Row(
-      children: const [
-        Expanded(
+      children: [
+        const Expanded(
           child: Text(
             'Oggi',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -65,7 +69,7 @@ class TodayTitle extends StatelessWidget {
         Text(
           '25 Gennaio 2023',
           style: TextStyle(
-            color: Color(0xFF4E4D4D),
+            color: lessContrastTextColor,
             fontSize: 14,
           ),
           textAlign: TextAlign.right,

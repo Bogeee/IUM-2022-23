@@ -12,10 +12,20 @@ import 'package:proj/models/user.dart';
 // Light Theme main colors
 Color lightThemeAccentColor = const Color(0xFFAD1052);
 Color lightThemeShadeColor =const Color(0x24FE7163);
+Color lightThemeMainContainerColor =const Color(0xFFFFFFFF);
+Color lightThemeLessContrastTextColor = const Color(0xFF4E4D4D);
+Color lightThemeErrorColor = const Color(0xffc50000);
+Color lightThemeOkColor = Colors.green;
+Color lightThemeLessonCardBg = const Color(0xfff6f6f6);
 
 // Dark Theme main colors
 Color darkThemeAccentColor  = const Color(0xFF31EDB9);
 Color darkThemeShadeColor = const Color(0x24FEC863);
+Color darkThemeMainContainerColor = const Color(0xFF212332);
+Color darkThemeLessContrastTextColor = const Color(0xFFD5D5D5);
+Color darkThemeErrorColor = const Color(0xffff5959);
+Color darkThemeOkColor = const Color(0xff31edab);
+Color darkThemeLessonCardBg = const Color(0xff2a2c3c);
 
 const String fileName = "theme.json";
 
@@ -23,6 +33,11 @@ class ThemeNotifier with ChangeNotifier {
   bool _isDark = false;
   Color _accentColor = lightThemeAccentColor;
   Color _shadeColor = lightThemeShadeColor;
+  Color _mainContainerColor = lightThemeMainContainerColor;
+  Color _lessContrastTextColor = lightThemeLessContrastTextColor;
+  Color _errorColor = lightThemeErrorColor;
+  Color _okColor = lightThemeOkColor;
+  Color _lessonCardBg = lightThemeLessonCardBg;
 
   ThemeNotifier();
 
@@ -33,15 +48,30 @@ class ThemeNotifier with ChangeNotifier {
     if (_isDark) {
       _accentColor = darkThemeAccentColor;
       _shadeColor = darkThemeShadeColor;
+      _mainContainerColor = darkThemeMainContainerColor;
+      _lessContrastTextColor = darkThemeLessContrastTextColor;
+      _errorColor = darkThemeErrorColor;
+      _okColor = darkThemeOkColor;
+      _lessonCardBg = darkThemeLessonCardBg;
     } else {
       _accentColor = lightThemeAccentColor;
       _shadeColor = lightThemeShadeColor;
+      _mainContainerColor = lightThemeMainContainerColor;
+      _lessContrastTextColor = lightThemeLessContrastTextColor;
+      _errorColor = lightThemeErrorColor;
+      _okColor = lightThemeOkColor;
+      _lessonCardBg = lightThemeLessonCardBg;
     }
     notifyListeners();
   }
 
   Color get accentColor => _accentColor;
   Color get shadeColor => _shadeColor;
+  Color get mainContainerColor => _mainContainerColor;
+  Color get lessContrastTextColor => _lessContrastTextColor;
+  Color get errorColor => _errorColor;
+  Color get okColor => _okColor;
+  Color get lessonCardBg => _lessonCardBg;
 
   // TODO: Will fix in the future if we have time
   // static Future<bool> getTheme() async {

@@ -34,7 +34,6 @@ class _MainScreenState extends State<MainScreen> {
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
     Color unselectedItemColor = isDark ? Colors.white54 : const Color(0xff0F172A);
-    Color menuBackgroundColor = isDark ? Colors.white54 : const Color(0xfff0f0f0);
     Color appBarForegroundColor = isDark ? Colors.black : Colors.white;
     User? userInfo = Provider.of<LoggedInNotifier>(context).userDetails;
 
@@ -102,7 +101,6 @@ class _MainScreenState extends State<MainScreen> {
               child: _children[_currentIndex],
             ),
             bottomNavigationBar: BottomNavigationBar(
-              backgroundColor: menuBackgroundColor,
               currentIndex: _currentIndex,
               type: BottomNavigationBarType.fixed,
               showUnselectedLabels: true,

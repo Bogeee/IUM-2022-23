@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:proj/constants.dart';
+import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/ripetizioni.dart';
 import 'package:proj/views/main/home/components/labels.dart';
 import 'package:proj/views/main/home/lesson_details.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 import 'lesson_detail.dart';
@@ -20,6 +22,9 @@ class Lesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color lessonCardBg = Provider.of<ThemeNotifier>(context).lessonCardBg;
+    bool isDark = Provider.of<ThemeNotifier>(context).isDark;
+
     return GestureDetector(
         onTap: (){
           Navigator.push(context,
@@ -33,11 +38,14 @@ class Lesson extends StatelessWidget {
           );
         },
         child: SimpleShadow(
-          sigma: 3,
+          color: isDark
+            ? Colors.white54
+            : Colors.black,
+          sigma: 2,
           offset: const Offset(2,2),
           child: Container(
           decoration: BoxDecoration(
-              color: const Color(0xfff6f6f6),
+              color: lessonCardBg,
               shape: BoxShape.rectangle,
               borderRadius: BorderRadius.circular(defaultPadding / 2)),
           child: Stack(
@@ -98,6 +106,9 @@ class Lesson extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/icons/chevron-right-solid.svg',
                   width: 11,
+                  color: isDark
+                    ? Colors.white
+                    : Colors.black,
                 ),
               )
             ],

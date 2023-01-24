@@ -25,6 +25,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     User userDetails = Provider.of<LoggedInNotifier>(context).userDetails;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color mainContainerColor = Provider.of<ThemeNotifier>(context).mainContainerColor;
+    Color errorColor = Provider.of<ThemeNotifier>(context).errorColor;
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
 
     setState(() {
@@ -34,7 +36,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
-        color: Colors.white,
+        color: mainContainerColor,
         child: Padding(
           padding: const EdgeInsets.all(defaultPadding / 2),
           child: Column(
@@ -110,19 +112,20 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   height: 40,
                   child: OutlinedButton(
                   onPressed: (){
-                    logoutDialog(context);
+                    logoutDialog(context, errorColor);
                   },
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                    overlayColor: MaterialStateProperty.all<Color>(Colors.red.withOpacity(0.20)),
+                    foregroundColor: MaterialStateProperty.all<Color>(errorColor),
+                    overlayColor: MaterialStateProperty.all<Color>(
+                              errorColor.withOpacity(0.20)),
                     textStyle: MaterialStateProperty.all<TextStyle>(
                       const TextStyle(
                         fontWeight: FontWeight.bold
                       )
                     ),
                     side: MaterialStateProperty.all<BorderSide>(
-                      const BorderSide(
-                        color: Colors.red, 
+                      BorderSide(
+                        color: errorColor, 
                         width: 2
                       )
                     )
@@ -133,7 +136,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       SvgPicture.asset(
                         'assets/icons/right-from-bracket-solid.svg', 
                         width: 14, 
-                        color: Colors.red
+                        color: errorColor
                       ),
                       const SizedBox(width: 0.5 * defaultPadding),
                       const Text('Esci')
@@ -150,7 +153,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-  void logoutDialog(BuildContext context) {
+  void logoutDialog(BuildContext context, Color errorColor) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -173,13 +176,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       },
                       style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.red),
+                              MaterialStateProperty.all<Color>(errorColor),
                           overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.red.withOpacity(0.20)),
+                              errorColor.withOpacity(0.20)),
                           textStyle: MaterialStateProperty.all<TextStyle>(
                               const TextStyle(fontWeight: FontWeight.bold)),
                           side: MaterialStateProperty.all<BorderSide>(
-                              const BorderSide(color: Colors.red, width: 2))),
+                              BorderSide(color: errorColor, width: 2))),
                       child: const Text('No')),
                 ),
                 const Expanded(

@@ -47,7 +47,9 @@ class NoSuggestionsResult extends StatelessWidget {
           left: 2 * defaultPadding,
           bottom: 0,
           child: SimpleShadow(
-            color: Colors.black38,
+            color: isDark
+              ? Colors.white38
+              : Colors.black38,
             offset: const Offset(0, 2),
             child: Image.asset(
               'assets/images/home/search2.png',

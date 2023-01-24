@@ -56,6 +56,7 @@ class _UserHomePageState extends State<UserHomePage> {
     int studentID = Provider.of<LoggedInNotifier>(context).userId;
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color mainContainer = Provider.of<ThemeNotifier>(context).mainContainerColor;
 
     return FutureBuilder(
       future: _homeFuture(studentID),
@@ -64,13 +65,13 @@ class _UserHomePageState extends State<UserHomePage> {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Container(
-              color: Colors.white,
+              color: mainContainer,
               child: Padding(
                 padding: const EdgeInsets.all(defaultPadding / 2),
                 child: Column(
                   children: [
                     lessonsEachDay.isEmpty 
-                      ? EmptyWeek(accent: accent, isDark: isDark)
+                      ? EmptyWeek(accent: accent, isDark: isDark,)
                       : WeekLessons(accent: accent, isDark: isDark, lessonList: lessonsEachDay),
                     const SizedBox(height: defaultPadding),
                     const TodayTitle(),

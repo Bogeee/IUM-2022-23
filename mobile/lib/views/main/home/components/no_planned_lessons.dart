@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:proj/models/notifiers.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 // constants
@@ -19,6 +21,8 @@ class NoPlannedLessons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color lessContrastTextColor = Provider.of<ThemeNotifier>(context).lessContrastTextColor;
+
     return Container(
       decoration: BoxDecoration(
           shape: BoxShape.rectangle,
@@ -48,7 +52,9 @@ class NoPlannedLessons extends StatelessWidget {
           ),
           Center(
             child: SimpleShadow(
-              color: Colors.black38,
+              color: isDark
+                ? Colors.white38
+                : Colors.black38,
               offset: const Offset(0, 3),
               child: Image.asset(
                 'assets/images/home/lessons.png',
@@ -72,12 +78,12 @@ class NoPlannedLessons extends StatelessWidget {
             ],
           ),
           Row(
-            children: const [
-              SizedBox(width: defaultPadding,),
+            children: [
+              const SizedBox(width: defaultPadding,),
               Text(
                 'Puoi aggiungere ripetizioni nella sezione "Prenota".',
                 style: TextStyle(
-                  color: Color(0xff4E4D4D),
+                  color: lessContrastTextColor,
                   fontSize: 13
                 ),
               )
@@ -109,7 +115,10 @@ class NoPlannedLessons extends StatelessWidget {
                     ),
                     SvgPicture.asset(
                       'assets/icons/plus-solid.svg',
-                      width: 14
+                      width: 14,
+                      color: isDark
+                        ? Colors.white
+                        : Colors.black,
                     ),
                     const Expanded(
                       child: Text(

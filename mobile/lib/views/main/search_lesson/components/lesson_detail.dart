@@ -19,6 +19,7 @@ class LessonDetailRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    bool isDark = Provider.of<ThemeNotifier>(context).isDark;
 
     return Padding(
       padding: const EdgeInsets.all(defaultPadding/2),
@@ -37,7 +38,11 @@ class LessonDetailRow extends StatelessWidget {
             style: header
                 ? TextStyle(
                     fontSize: 16, color: accent, fontWeight: FontWeight.bold)
-                : const TextStyle(color: Colors.black),
+                : TextStyle(
+                  color: isDark
+                    ? Colors.white
+                    : Colors.black
+                ),
           ),
         ],
       ),

@@ -25,7 +25,6 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
     Color unselectedItemColor = isDark ? Colors.white54 : const Color(0xff0F172A);
-    Color menuBackgroundColor = isDark ? Colors.white54 : const Color(0xfff0f0f0);
     Color appBarForegroundColor = isDark ? Colors.black : Colors.white;
 
     final List<Widget> _children = [
@@ -70,7 +69,6 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
           child: _children[_currentIndex],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: menuBackgroundColor,
           currentIndex: _currentIndex,
           type: BottomNavigationBarType.fixed,
           showUnselectedLabels: true,

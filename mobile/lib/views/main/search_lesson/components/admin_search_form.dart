@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:proj/models/user.dart';
-import 'package:provider/provider.dart';
 
-// modals
+// models
+import 'package:provider/provider.dart';
+import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/materie.dart';
 import 'package:proj/models/ripetizioni.dart';
-import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/docenti.dart';
+import 'package:proj/models/user.dart';
 
 // constants
 import 'package:proj/constants.dart';
@@ -51,6 +51,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
   @override
   Widget build(BuildContext context) {
     int userId = Provider.of<LoggedInNotifier>(context).userId;
+    Color mainContainerColor= Provider.of<ThemeNotifier>(context).mainContainerColor;
 
     return Column(children: [
       Padding(
@@ -75,8 +76,10 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                         const Expanded(child: Text("Materia")),
                         Text(
                           _selectedSubject,
-                          style: const TextStyle(
-                              color: Colors.black,
+                          style: TextStyle(
+                              color: widget.isDark
+                                ? Colors.white
+                                : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
                         ),
@@ -86,6 +89,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                         SvgPicture.asset(
                           'assets/icons/chevron-right-solid.svg',
                           width: 10,
+                          color: widget.isDark ? Colors.white : Colors.black,
                         )
                       ],
                     ))),
@@ -93,11 +97,10 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
               materie = await getSubjectsFromDB();
 
               String? result = await showDialog(
+                  barrierColor: Colors.black.withOpacity(0.75),
                   context: context,
                   builder: (builder) {
                     return AlertDialog(
-                      // FIXME: bisogna cambiare il colore dell'alert in base al tema???
-                      // backgroundColor: ,
                       title: const Text("Inserisci la materia da cercare"),
                       content: Autocomplete<String>(
                         optionsBuilder: (TextEditingValue textEditingValue) {
@@ -119,8 +122,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                               child: Container(
                                 width: 200,
                                 height: options.length * 100,
-                                // FIXME: devo cambiargli il color in base al tema????
-                                color: Colors.white,
+                                color: mainContainerColor,
                                 child: ListView.builder(
                                   padding: const EdgeInsets.all(10.0),
                                   itemCount: options.length,
@@ -134,10 +136,13 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                                         onSelected(option);
                                       },
                                       child: ListTile(
-                                        // FIXME: devo cambiargli il background color in base al tema????
                                         title: Text(option,
-                                            style: const TextStyle(
-                                                color: Colors.black)),
+                                          style: TextStyle(
+                                            color: widget.isDark
+                                                    ? Colors.white
+                                                    : Colors.black
+                                          )
+                                        ),
                                       ),
                                     );
                                   },
@@ -157,19 +162,25 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                           return TextField(
                             controller: fieldTextEditingController,
                             focusNode: fieldFocusNode,
-                            decoration: const InputDecoration(
-                                fillColor: Color(0xFFEDEDED),
+                            decoration: InputDecoration(
+                                fillColor: widget.isDark
+                                  ? Colors.black.withOpacity(0.3)
+                                  : const Color(0xFFEDEDED),
                                 filled: true,
-                                border: OutlineInputBorder(
+                                border: const OutlineInputBorder(
                                     borderSide: BorderSide.none,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5))),
-                                constraints: BoxConstraints(
+                                constraints: const BoxConstraints(
                                     minWidth: 270,
                                     maxWidth: 350,
                                     minHeight: 60,
                                     maxHeight: 85)),
-                            style: const TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: widget.isDark
+                                  ? Colors.white
+                                  : Colors.black
+                            ),
                           );
                         },
                       ),
@@ -202,19 +213,21 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                           _selectedProfessor != null
                               ? "${_selectedProfessor!.nome} ${_selectedProfessor!.cognome}"
                               : "Qualsiasi ",
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color:  widget.isDark ? Colors.white : Colors.black, 
+                              fontWeight: FontWeight.bold
+                          ),
                         ),
                         onPressed: () async {
                           if (materie.isEmpty) {
-                            showError("Prima devi selezionare una materia");
+                            showError("Prima devi selezionare una materia", widget.isDark);
                           } else {
                             docenti = await getProfessorBySubject(_selectedSubject);
                             docenti.insert( 0, Docente.fromData( -1, "Qualsiasi", "", "", true));
 
                             Docente? professor = await showModalBottomSheet(
-                              backgroundColor: Colors.white,
-                              barrierColor: Colors.black.withOpacity(0.75),
+                              backgroundColor: mainContainerColor,
+                              barrierColor: Colors.black.withOpacity(0.70),
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(defaultPadding),
@@ -226,7 +239,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                                     expand: false,
                                     initialChildSize: 0.4,
                                     minChildSize: 0.2,
-                                    maxChildSize: 0.8,
+                                    maxChildSize: 1,
                                     builder: (context, scrollController) {
                                       return Container(
                                           color: Colors.transparent,
@@ -244,11 +257,14 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                                                     Navigator.of(context)
                                                         .pop(docente),
                                                 child: ListTile(
-                                                  // FIXME: devo cambiargli il background color in base al tema????
                                                   title: Text(
                                                       "${docente.nome} ${docente.cognome}",
-                                                      style: const TextStyle(
-                                                          color: Colors.black)),
+                                                      style: TextStyle(
+                                                          color:  widget.isDark
+                                                              ? Colors.white
+                                                              : Colors.black
+                                                        )
+                                                  ),
                                                 ),
                                               );
                                             },
@@ -299,8 +315,8 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                         const Expanded(child: Text("Studente")),
                         Text(
                           _selectedStudent,
-                          style: const TextStyle(
-                              color: Colors.black,
+                          style: TextStyle(
+                              color:  widget.isDark ? Colors.white : Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 14),
                         ),
@@ -310,6 +326,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                         SvgPicture.asset(
                           'assets/icons/chevron-right-solid.svg',
                           width: 10,
+                          color:  widget.isDark ? Colors.white : Colors.black,
                         )
                       ],
                     ))),
@@ -317,11 +334,10 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
               studenti = await getStudentsFromDB();
 
               String? studResult = await showDialog(
+                barrierColor: Colors.black.withOpacity(0.75),
                   context: context,
                   builder: (builder) {
                     return AlertDialog(
-                      // FIXME: bisogna cambiare il colore dell'alert in base al tema???
-                      // backgroundColor: ,
                       title: const Text("Inserisci l\'email dello studente da cercare"),
                       content: Autocomplete<String>(
                         optionsBuilder: (TextEditingValue textEditingValue) {
@@ -343,8 +359,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                               child: Container(
                                 width: 200,
                                 height: options.length * 100,
-                                // FIXME: devo cambiargli il color in base al tema????
-                                color: Colors.white,
+                                color: mainContainerColor,
                                 child: ListView.builder(
                                   padding: const EdgeInsets.all(10.0),
                                   itemCount: options.length,
@@ -358,11 +373,12 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                                         onSelected(option);
                                       },
                                       child: ListTile(
-                                        // FIXME: devo cambiargli il background color in base al tema????
                                         title: Text(
                                           option,
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                          style: TextStyle(
+                                            color:  widget.isDark
+                                                    ? Colors.white
+                                                    : Colors.black,
                                             fontSize: 11
                                           )
                                         ),
@@ -385,19 +401,25 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                           return TextField(
                             controller: fieldTextEditingController,
                             focusNode: fieldFocusNode,
-                            decoration: const InputDecoration(
-                                fillColor: Color(0xFFEDEDED),
+                            decoration: InputDecoration(
+                                fillColor: widget.isDark
+                                ? Colors.black.withOpacity(0.3)
+                                : const Color(0xFFEDEDED),
                                 filled: true,
-                                border: OutlineInputBorder(
+                                border: const OutlineInputBorder(
                                     borderSide: BorderSide.none,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(5))),
-                                constraints: BoxConstraints(
+                                constraints: const BoxConstraints(
                                     minWidth: 270,
                                     maxWidth: 350,
                                     minHeight: 60,
                                     maxHeight: 85)),
-                            style: const TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color:  widget.isDark
+                                    ? Colors.white
+                                    : Colors.black
+                            ),
                           );
                         },
                       ),
@@ -428,13 +450,14 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                         ),
                         child: Text(
                           _selectedDay,
-                          style: const TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            color:  widget.isDark ? Colors.white : Colors.black, 
+                            fontWeight: FontWeight.bold),
                         ),
                         onPressed: () async {
                           String? day = await showModalBottomSheet(
-                            backgroundColor: Colors.white,
-                            barrierColor: Colors.black.withOpacity(0.75),
+                            backgroundColor: mainContainerColor,
+                            barrierColor: Colors.black.withOpacity(0.70),
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(defaultPadding),
@@ -463,10 +486,13 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                                               onTap: () => Navigator.of(context)
                                                   .pop(option),
                                               child: ListTile(
-                                                // FIXME: devo cambiargli il background color in base al tema????
                                                 title: Text(option,
-                                                    style: const TextStyle(
-                                                        color: Colors.black)),
+                                                    style: TextStyle(
+                                                        color:  widget.isDark
+                                                            ? Colors.white
+                                                            : Colors.black
+                                                    )
+                                                ),
                                               ),
                                             );
                                           },
@@ -538,8 +564,10 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                               },
                               child: Text(
                                 _selectedTimeFrom,
-                                style: const TextStyle(
-                                    color: Colors.black,
+                                style: TextStyle(
+                                    color:  widget.isDark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontWeight: FontWeight.bold),
                               )),
                           Padding(
@@ -548,6 +576,7 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                             child: SvgPicture.asset(
                               'assets/icons/arrow-right-solid.svg',
                               width: 14,
+                              color:  widget.isDark ? Colors.white : Colors.black,
                             ),
                           ),
                           OutlinedButton(
@@ -580,14 +609,19 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
                               },
                               child: Text(
                                 _selectedTimeTo,
-                                style: const TextStyle(
-                                    color: Colors.black,
+                                style: TextStyle(
+                                    color:  widget.isDark
+                                        ? Colors.white
+                                        : Colors.black,
                                     fontWeight: FontWeight.bold),
                               )),
                         ],
                       ),
                     ],
-                  )))),
+                  )
+                )
+              )
+            ),
       const SizedBox(height: 0.5 * defaultPadding),
       SizedBox(
         width: MediaQuery.of(context).size.width - defaultPadding,
@@ -604,25 +638,25 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
               );
 
               if (_selectedSubject == "") {
-                showError("Devi selezionare una materia");
+                showError("Devi selezionare una materia", widget.isDark);
               } else if (start.compareTo(end) >= 0) {
-                showError("Inserisci un intervallo di ore valido");
+                showError("Inserisci un intervallo di ore valido", widget.isDark);
               } else if (start.compareTo(const TimeOfDay(hour: 09, minute: 00)) < 0) {
-                showError( "Inserisci un'ora di inizio maggiore o uguale a 9:00");
+                showError( "Inserisci un'ora di inizio maggiore o uguale a 9:00", widget.isDark);
               } else if (start .compareTo(const TimeOfDay(hour: 12, minute: 00)) > 0 &&
                   start.compareTo(const TimeOfDay(hour: 15, minute: 00)) < 0) {
-                showError( "Inserisci un'ora di inizio minore o uguale a 12:00 oppure maggiore o uguale a 15:00");
+                showError( "Inserisci un'ora di inizio minore o uguale a 12:00 oppure maggiore o uguale a 15:00", widget.isDark);
               } else if (start .compareTo(const TimeOfDay(hour: 18, minute: 00)) > 0) {
-                showError("Inserisci un'ora di inizio minore o uguale a 18:00");
+                showError("Inserisci un'ora di inizio minore o uguale a 18:00", widget.isDark);
               } else if (end.compareTo(const TimeOfDay(hour: 10, minute: 00)) < 0) {
-                showError("Inserisci un'ora di fine maggiore o uguale a 10:00");
+                showError("Inserisci un'ora di fine maggiore o uguale a 10:00", widget.isDark);
               } else if (end.compareTo(const TimeOfDay(hour: 13, minute: 00)) > 0 &&
                   end.compareTo(const TimeOfDay(hour: 16, minute: 00)) < 0) {
-                showError( "Inserisci un'ora di fine minore o uguale a 13:00 oppure maggiore o uguale a 16:00");
+                showError( "Inserisci un'ora di fine minore o uguale a 13:00 oppure maggiore o uguale a 16:00", widget.isDark);
               } else if (end.compareTo(const TimeOfDay(hour: 19, minute: 00)) > 0) {
-                showError("Inserisci un'ora di fine minore o uguale a 19:00");
+                showError("Inserisci un'ora di fine minore o uguale a 19:00", widget.isDark);
               } else if ((_selectedProfessor == null || _selectedProfessor?.id == -1) && _selectedStudent == "") {
-                showError("Inserisci un professore o uno studente");
+                showError("Inserisci un professore o uno studente", widget.isDark);
               } else {
                 List<Ripetizione> activeLessons = await getActiveLessons(
                   _selectedStudent,
@@ -664,15 +698,23 @@ class _AdminSearchFormState extends State<AdminSearchForm> {
     ]);
   }
 
-  // FIXME: mettere stile all'alert dialog che sembri di più segnalazione di errore
-  void showError(String message) {
+
+  void showError(String message, bool isDark) {
     showDialog(
         context: context,
         builder: (builder) {
           return AlertDialog(
-            // FIXME: bisogna cambiare il colore dell'alert in base al tema???
-            // backgroundColor: ,
-            title: const Text("Attenzione!"),
+            title: Row(
+              children: [
+                SvgPicture.asset(
+                  'assets/icons/triangle-exclamation-solid.svg',
+                  width: 16,
+                  color: isDark ? Colors.white : Colors.black,
+                ),
+                const SizedBox(width: 0.5 * defaultPadding,),
+                const Text("Attenzione!")
+              ],
+            ),
             content: Text("$message"),
             actions: <Widget>[
               Row(

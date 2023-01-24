@@ -23,12 +23,14 @@ class NoHistory extends StatelessWidget {
   Widget build(BuildContext context) {
 
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color mainContainerColor= Provider.of<ThemeNotifier>(context).mainContainerColor;
     Color shade = Provider.of<ThemeNotifier>(context).shadeColor;
+    bool isDark = Provider.of<ThemeNotifier>(context).isDark;
 
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: Container(
-          color: Colors.white,
+          color: mainContainerColor,
           child: Padding(
             padding: const EdgeInsets.all(defaultPadding / 2),
             child: Center(
@@ -50,10 +52,16 @@ class NoHistory extends StatelessWidget {
                     children: [
                       const SizedBox(height: 3 * defaultPadding),
                       Center(
-                          child: SimpleShadow(
-                              child: Image.asset(
-                                  'assets/images/history/homework.png',
-                                  width: 300))),
+                        child: SimpleShadow(
+                          color: isDark 
+                            ? Colors.white54
+                            : Colors.black,
+                          child: Image.asset(
+                              'assets/images/history/homework.png',
+                              width: 300
+                          )
+                        )
+                      ),
                       const SizedBox(
                         height: 0.5 * defaultPadding,
                       ),
@@ -90,7 +98,10 @@ class NoHistory extends StatelessWidget {
                             },
                             style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white),
+                                  isDark
+                                    ? Colors.black
+                                    : Colors.white
+                              ),
                               backgroundColor:
                                   MaterialStateProperty.all<Color>(accent),
                               overlayColor: MaterialStateProperty.all<Color>(

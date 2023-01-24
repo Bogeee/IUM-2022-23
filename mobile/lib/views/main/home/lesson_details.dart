@@ -34,6 +34,8 @@ class _LessonDetailsState extends State<LessonDetails> {
     int studentID = Provider.of<LoggedInNotifier>(context).userId;
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color errorColor = Provider.of<ThemeNotifier>(context).errorColor;
+    Color okColor = Provider.of<ThemeNotifier>(context).okColor;
     Color appBarForegroundColor = isDark ? Colors.black : Colors.white;
     TextEditingController txtArgomento = TextEditingController();
     User? userInfo = Provider.of<LoggedInNotifier>(context).userDetails;
@@ -195,15 +197,16 @@ class _LessonDetailsState extends State<LessonDetails> {
                       flex: 2,
                       child: OutlinedButton(
                         onPressed: (){
-                          cancelLesson(context, studentID);
+                          cancelLesson(context, studentID, errorColor);
                         },
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                          overlayColor: MaterialStateProperty.all<Color>(Colors.red.withOpacity(0.20)),
+                          foregroundColor: MaterialStateProperty.all<Color>(errorColor),
+                          overlayColor: MaterialStateProperty.all<Color>(
+                                  errorColor.withOpacity(0.20)),
                           textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
                             fontWeight: FontWeight.bold
                           )),
-                          side: MaterialStateProperty.all<BorderSide>(const BorderSide(color: Colors.red, width: 2))
+                          side: MaterialStateProperty.all<BorderSide>(BorderSide(color: errorColor, width: 2))
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +214,7 @@ class _LessonDetailsState extends State<LessonDetails> {
                             SvgPicture.asset(
                               'assets/icons/triangle-exclamation-solid.svg',
                               width: 14,
-                              color: Colors.red
+                              color: errorColor
                             ),
                             const SizedBox(width: 5,),
                             const Text('Disdici')
@@ -235,17 +238,21 @@ class _LessonDetailsState extends State<LessonDetails> {
                         flex: 2,
                         child: OutlinedButton(
                           onPressed: (){
-                            finishedLesson(context, studentID);
+                            finishedLesson(context, studentID, errorColor);
                           },
                           style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                              isDark 
+                                ? Colors.black
+                                : Colors.white
+                            ),
+                            backgroundColor: MaterialStateProperty.all<Color>(okColor),
                             overlayColor: MaterialStateProperty.all<Color>(Colors.white.withOpacity(0.20)),
                             textStyle: MaterialStateProperty.all<TextStyle>(
                               const TextStyle(fontWeight: FontWeight.bold)
                             ),
                             side: MaterialStateProperty.all<BorderSide>(
-                              const BorderSide(color: Colors.green, width: 2)
+                              BorderSide(color: okColor, width: 2)
                             )
                           ),
                           child: const Text('Completata'),
@@ -299,8 +306,9 @@ class _LessonDetailsState extends State<LessonDetails> {
     );
   }
 
-  void cancelLesson(BuildContext context, int studentID){
+  void cancelLesson(BuildContext context, int studentID, Color errorColor){
     showDialog(
+      barrierColor: Colors.black.withOpacity(0.75),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -318,12 +326,14 @@ class _LessonDetailsState extends State<LessonDetails> {
                       Navigator.of(context).pop(); // close dialog
                     },
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                      overlayColor: MaterialStateProperty.all<Color>(Colors.red.withOpacity(0.20)),
+                      foregroundColor: MaterialStateProperty.all<Color>(errorColor),
+                      overlayColor: MaterialStateProperty.all<Color>(errorColor.withOpacity(0.20)),
                       textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
                         fontWeight: FontWeight.bold
                       )),
-                      side: MaterialStateProperty.all<BorderSide>(const BorderSide(color: Colors.red, width: 2))
+                      side: MaterialStateProperty.all<BorderSide>(BorderSide(
+                        color: errorColor, width: 2
+                      ))
                     ),
                     child: const Text('No')
                   ),
@@ -364,8 +374,9 @@ class _LessonDetailsState extends State<LessonDetails> {
     );
   }
 
-  void finishedLesson(BuildContext context, int studentID) {
+  void finishedLesson(BuildContext context, int studentID, Color errorColor) {
     showDialog(
+      barrierColor: Colors.black.withOpacity(0.75),
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -387,13 +398,13 @@ class _LessonDetailsState extends State<LessonDetails> {
                       },
                       style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.red),
+                              MaterialStateProperty.all<Color>(errorColor),
                           overlayColor: MaterialStateProperty.all<Color>(
-                              Colors.red.withOpacity(0.20)),
+                              errorColor.withOpacity(0.20)),
                           textStyle: MaterialStateProperty.all<TextStyle>(
                               const TextStyle(fontWeight: FontWeight.bold)),
                           side: MaterialStateProperty.all<BorderSide>(
-                              const BorderSide(color: Colors.red, width: 2))),
+                              BorderSide(color: errorColor, width: 2))),
                       child: const Text('No')),
                 ),
                 const Expanded(
@@ -439,11 +450,10 @@ class _LessonDetailsState extends State<LessonDetails> {
   // FIXME: mettere stile all'alert dialog che sembri di più segnalazione di errore
   void showError(BuildContext context, String message) {
     showDialog(
+        barrierColor: Colors.black.withOpacity(0.75),
         context: context,
         builder: (builder) {
           return AlertDialog(
-            // FIXME: bisogna cambiare il colore dell'alert in base al tema???
-            // backgroundColor: ,
             title: const Text("Attenzione!"),
             content: Text("$message"),
             actions: <Widget>[

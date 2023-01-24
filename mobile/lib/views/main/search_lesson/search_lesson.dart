@@ -58,6 +58,7 @@ class _SearchLessonPageState extends State<SearchLessonPage> {
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color mainContainerColor = Provider.of<ThemeNotifier>(context).mainContainerColor;
     int userId = Provider.of<LoggedInNotifier>(context).userId;
 
     return FutureBuilder(
@@ -67,7 +68,7 @@ class _SearchLessonPageState extends State<SearchLessonPage> {
             return SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
-                    color: Colors.white,
+                    color: mainContainerColor,
                     child: Padding(
                         padding: const EdgeInsets.all(defaultPadding / 2),
                         child: Column(

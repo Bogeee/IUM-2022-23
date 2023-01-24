@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:proj/views/main/search_lesson/components/admin_search_form.dart';
-import 'package:proj/views/main/search_lesson/components/lesson.dart';
-import 'package:proj/views/main/search_lesson/components/search_form.dart';
-import 'package:proj/views/main/search_lesson/components/search_result.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 
 // constants
 import 'package:proj/constants.dart';
@@ -13,9 +7,11 @@ import 'package:proj/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:proj/models/notifiers.dart';
 import 'package:proj/models/ripetizioni.dart';
-import 'package:proj/models/corsi.dart';
 import 'package:proj/models/materie.dart';
 
+// views
+import 'package:proj/views/main/search_lesson/components/admin_search_form.dart';
+import 'package:proj/views/main/search_lesson/components/search_result.dart';
 
 class AdminUnbookPage extends StatefulWidget {
   const AdminUnbookPage({super.key});
@@ -48,12 +44,13 @@ class _AdminUnbookPageState extends State<AdminUnbookPage> {
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeNotifier>(context).isDark;
     Color accent = Provider.of<ThemeNotifier>(context).accentColor;
+    Color mainContainerColor = Provider.of<ThemeNotifier>(context).mainContainerColor;
     int userId = Provider.of<LoggedInNotifier>(context).userId;
 
     return SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(
-            color: Colors.white,
+            color: mainContainerColor,
             child: Padding(
                 padding: const EdgeInsets.all(defaultPadding / 2),
                 child: Column(
