@@ -55,7 +55,8 @@ class LessonInfoRow extends StatelessWidget {
           ),
         ),
         Expanded(
-            child: Text(
+          flex: item_title == 'Email' ? 2 : 1,
+          child: Text(
           item,
           textAlign: item_title == 'Argomento' && item.length > 25
               ? TextAlign.left

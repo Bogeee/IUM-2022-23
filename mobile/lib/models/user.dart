@@ -54,7 +54,7 @@ class User {
       map['cognome'] as String, 
       map['email'] as String, 
       map['pwd'] as String, 
-      map['isAdmin'] == 1 ? true : false
+      map['isAdmin'] as bool
     );
   }
 

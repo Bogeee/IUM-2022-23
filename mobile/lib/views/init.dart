@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proj/views/main/admin_main_screen.dart';
 
 // Models
 import 'package:provider/provider.dart';
@@ -56,6 +57,7 @@ class _InitViewState extends State<InitView> {
       setState(() {
         _user = tmp;
       });
+
       // We must test the login credentials because we can't restore
       // the session just because we read info from the json file.
       // This file can be edited with root privileges!
@@ -65,6 +67,7 @@ class _InitViewState extends State<InitView> {
         setState(() {
           _isSaved = true;
         });
+
         // Then we must rewrite the local file with the DB info to keep consistent data,
         // but also, if a root user edited this text, this won't affect the app
         // when running. This will fix malicious edits before using user's data in the app.
@@ -98,7 +101,9 @@ class _InitViewState extends State<InitView> {
           if (_firstOpening) {
             return const OnboardingPage();
           } else {
-            return _isSaved ? const MainScreen() : const LoginView();
+            return _isSaved 
+                ? const MainScreen()
+                : const LoginView();
           }
         } else {
           return Scaffold(
