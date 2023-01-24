@@ -490,8 +490,7 @@ class _SearchFormState extends State<SearchForm> {
                   _selectedProfessor,
                   _selectedDay,
                   start.hour,
-                  end.hour,
-                  false
+                  end.hour
                 );
 
                 widget.showSearchResultsCallback(freeLessons);

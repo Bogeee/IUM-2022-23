@@ -286,7 +286,7 @@ Future<void> completeLesson(Ripetizione lesson, int userId) async {
 
 Future<List<Ripetizione>> searchFreeLessons(int userId, String subject,
     Docente? professor, String day,
-    int timeStart, int timeEnd, bool limit) async {
+    int timeStart, int timeEnd) async {
   final db = await openDatabase('ripetizioni.db');
   List<Ripetizione> freeLessons = [];
 
@@ -317,27 +317,47 @@ Future<List<Ripetizione>> searchFreeLessons(int userId, String subject,
     }
   }
 
-  // FIXME: SQL Injection, fix with 2 queries if we have time
-  final result = await db.rawQuery(
-      "SELECT Ris.*, C.ID AS Corso, C.*, D.* "
-      "FROM ( "
-      "SELECT * "
-      "FROM Ripetizioni AS R "
-      "WHERE NOT EXISTS ( "
-      "SELECT C1.ID, P.Giorno, P.OraI, P.OraF "
-      "FROM Prenotazioni AS P INNER JOIN Corsi AS C1 ON C1.ID = P.Corso "
-      "WHERE C1.ID = R.Corso AND P.Giorno = R.Giorno AND P.OraI < R.OraF AND P.OraF > R.OraI AND P.Stato != 2) "
-      ") AS Ris INNER JOIN Corsi AS C "
-      "ON C.ID = Ris.Corso "
-      "INNER JOIN Docenti AS D "
-      "ON D.ID = C.Docente "
-      "INNER JOIN Materie AS M "
-      "ON C.Materia = M.Nome "
-      "WHERE Ris.OraI >= ? AND Ris.OraF <= ? AND D.valDocente = 'TRUE' AND C.valCorso = 'TRUE' AND M.valMateria = 'TRUE' "
-      "${professor != null && professor.id != -1 ? "AND D.ID = ${professor.id} " : ""}"
-      "ORDER BY OraI, OraF, D.Cognome, D.Nome "
-      "${limit ? "LIMIT 10" : ""};", // FIXME: il limit non funziona!!!
-      [timeStart, timeEnd]);
+  final result;
+
+  if(professor != null && professor.id != -1) {
+    result = await db.rawQuery(
+        "SELECT Ris.*, C.ID AS Corso, C.*, D.* "
+        "FROM ( "
+        "SELECT * "
+        "FROM Ripetizioni AS R "
+        "WHERE NOT EXISTS ( "
+        "SELECT C1.ID, P.Giorno, P.OraI, P.OraF "
+        "FROM Prenotazioni AS P INNER JOIN Corsi AS C1 ON C1.ID = P.Corso "
+        "WHERE C1.ID = R.Corso AND P.Giorno = R.Giorno AND P.OraI < R.OraF AND P.OraF > R.OraI AND P.Stato != 2) "
+        ") AS Ris INNER JOIN Corsi AS C "
+        "ON C.ID = Ris.Corso "
+        "INNER JOIN Docenti AS D "
+        "ON D.ID = C.Docente "
+        "INNER JOIN Materie AS M "
+        "ON C.Materia = M.Nome "
+        "WHERE Ris.OraI >= ? AND Ris.OraF <= ? AND D.valDocente = 'TRUE' AND C.valCorso = 'TRUE' AND M.valMateria = 'TRUE' AND D.ID = ? "
+        "ORDER BY OraI, OraF, D.Cognome, D.Nome;",
+        [timeStart, timeEnd, professor.id]);
+  } else {
+    result = await db.rawQuery(
+        "SELECT Ris.*, C.ID AS Corso, C.*, D.* "
+        "FROM ( "
+        "SELECT * "
+        "FROM Ripetizioni AS R "
+        "WHERE NOT EXISTS ( "
+        "SELECT C1.ID, P.Giorno, P.OraI, P.OraF "
+        "FROM Prenotazioni AS P INNER JOIN Corsi AS C1 ON C1.ID = P.Corso "
+        "WHERE C1.ID = R.Corso AND P.Giorno = R.Giorno AND P.OraI < R.OraF AND P.OraF > R.OraI AND P.Stato != 2) "
+        ") AS Ris INNER JOIN Corsi AS C "
+        "ON C.ID = Ris.Corso "
+        "INNER JOIN Docenti AS D "
+        "ON D.ID = C.Docente "
+        "INNER JOIN Materie AS M "
+        "ON C.Materia = M.Nome "
+        "WHERE Ris.OraI >= ? AND Ris.OraF <= ? AND D.valDocente = 'TRUE' AND C.valCorso = 'TRUE' AND M.valMateria = 'TRUE' "
+        "ORDER BY OraI, OraF, D.Cognome, D.Nome;",
+        [timeStart, timeEnd]);
+  }
 
   if (result.isEmpty) {
     return freeLessons;
@@ -371,10 +391,10 @@ Future<List<Ripetizione>> getSuggestedLessons(
   List<Ripetizione> suggestedLessons = [];
 
   for (Materia subject in previousSubjects) {
-    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 9, 10, true));
-    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 12, 13, true));
-    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 15, 16, true));
-    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 18, 19, true));
+    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 9, 10));
+    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 12, 13));
+    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 15, 16));
+    suggestedLessons.addAll( await searchFreeLessons(userId, subject.nome, null, day, 18, 19));
   }
 
   return suggestedLessons;
