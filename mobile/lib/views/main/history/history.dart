@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 // constants
 import 'package:proj/constants.dart';
 import 'package:proj/models/ripetizioni.dart';
+import 'package:proj/views/main/history/components/cancelled_list.dart';
+import 'package:proj/views/main/history/components/history_list.dart';
+import 'package:proj/views/main/home/components/titles.dart';
 import 'package:proj/views/main/search_lesson/components/lesson.dart';
 
 // models
@@ -27,6 +30,7 @@ class UserHistoryPage extends StatefulWidget {
 class _UserHistoryPageState extends State<UserHistoryPage> {
 
   List<Ripetizione> oldLessons = [];
+  List<Ripetizione> cancelledLessons = [];
 
   bool _checked = false;
 
@@ -34,6 +38,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
   Future<void> _historyFuture(int studentID) async {
     if (!_checked) {
       oldLessons = await getOldLessons(studentID);
+      cancelledLessons = await getCancelledLessons(studentID);
       setState(() {
         _checked = true;
       });
@@ -58,7 +63,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
       future: _historyFuture(studentID),
       builder: (BuildContext context, AsyncSnapshot snapshot){
         if(_checked){
-          return oldLessons.isNotEmpty
+          return oldLessons.isNotEmpty || cancelledLessons.isNotEmpty
             ? SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Container(
@@ -67,46 +72,40 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
                     padding: const EdgeInsets.all(defaultPadding / 2),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            const Expanded(
-                              child: Text(
-                                'Ripetizioni passate',
+                        if(oldLessons.isNotEmpty)
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'Ripetizioni passate',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '25 Gennaio 2023',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                              ),
-                            ),
-                            Text(
-                              '25 Gennaio 2023',
-                              style: TextStyle(
-                                color: lessContrastTextColor,
-                                fontSize: 14,
-                              ),
-                              textAlign: TextAlign.right,
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 0.5 * defaultPadding,),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: ((context, index) {
-                              return Lesson(
-                                lesson: oldLessons[index],
-                                refreshUICallback: _refreshUI,
-                              );
-                            }), 
-                            separatorBuilder: (context, index){
-                              return const SizedBox(
-                                height: defaultPadding,
-                              );
-                            }, 
-                            itemCount: oldLessons.length
+                                  color: lessContrastTextColor,
+                                  fontSize: 14,
+                                ),
+                                textAlign: TextAlign.right,
+                              )
+                            ],
                           ),
-                        )
+                        if (oldLessons.isNotEmpty)
+                          const SizedBox(height: 0.5 * defaultPadding,),
+                        if (oldLessons.isNotEmpty)
+                          HistoryList(oldLessons: oldLessons, refreshUI: _refreshUI),
+                        if (cancelledLessons.isNotEmpty && oldLessons.isNotEmpty)
+                          const SizedBox(height: defaultPadding,),
+                        if (cancelledLessons.isNotEmpty)
+                          const GenericTitle(title: 'Ripetizioni annullate'),
+                        if (cancelledLessons.isNotEmpty)
+                          const SizedBox(height: 0.5 * defaultPadding,),
+                        if (cancelledLessons.isNotEmpty)
+                          CancelledList(cancelledLessons: cancelledLessons, refreshUI: _refreshUI),
                       ],
                     ),
                   ),
