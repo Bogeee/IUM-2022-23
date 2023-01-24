@@ -239,6 +239,23 @@ After getting the paths, we store them in a list with their cost, obtained using
 
 We decided to print suboptimal paths only in a short way and with their cost, while for optimal paths we added the printing of the details of every edge that composes the path, specifing the operation applied to go from a node to another one.
 
+### Examples
+
+Let's see if exists a path between `marino` and `segnan` with the given dictionary words:
+
+<img src="./README.md.d/working.gif">
+
+Let's see if exists a path between `pippo` and `pluto` with the given dictionary words:
+
+<img src="./README.md.d/no_path.gif">
+
+Have fun searching paths between two words... here are some other examples:
+- From `cristina` to `gena`
+- From `poco` to `fronti`
+- From `ciao` to `mamma`
+- From `forza` to `milan`
+- From `messi` to `ronaldo`
+
 ## Authors
 
 * [Filippo Bogetti](https://bogeee.github.io/)
