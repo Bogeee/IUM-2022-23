@@ -5,7 +5,8 @@ window.onload = function() {
         var errDiv = document.getElementById("errMsg");
         errDiv.style.display = 'none';
         document.getElementById("btnRegister").insertAdjacentElement("beforebegin", errDiv);
-        formDataChannel.postMessage(getFormData());
+        // formDataChannel.postMessage(getFormData());
+        getFormData();
         return false;
     }
 }
@@ -121,6 +122,8 @@ function getFormData() {
 
     clearAriaErrorAttributes("password");
     clearAriaErrorAttributes("rpt-password");
+
+    showResult("Registrazione avvenuta con successo!");
 
     return JSON.stringify(data);
 }

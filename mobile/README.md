@@ -1,6 +1,8 @@
 # Flutter Project
 
-Flutter part of the project.
+Flutter part of the project. Check out the [Figma prototype & Personas](https://www.figma.com/file/NbkYvV62yff4ysNIDYyIYa/Flutter-Project-App-Prototype?node-id=0%3A1&t=n2tABiv5SbXgIRJn-1).
+
+UI can be improved. Material Design 3 is not available yet in Flutter. At the end of the day this is just an university exam :)
 
 ## Dependencies
 
